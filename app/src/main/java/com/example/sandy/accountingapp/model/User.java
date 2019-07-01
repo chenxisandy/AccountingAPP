@@ -17,6 +17,11 @@ public class User {
 
     private double monthMoney;
 
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
     //get
     // TODO: 2019/6/30 to disable
     public double getDayMoney() {
@@ -35,4 +40,35 @@ public class User {
         return accountList;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setDayMoney(double dayMoney) {
+        this.dayMoney = dayMoney;
+    }
+
+    public void setWeekMoney(double weekMoney) {
+        this.weekMoney = weekMoney;
+    }
+
+    public void setMonthMoney(double monthMoney) {
+        this.monthMoney = monthMoney;
+    }
+
+    public void addAccount(Account account){
+        accountList.add(account);
+    }
 }
