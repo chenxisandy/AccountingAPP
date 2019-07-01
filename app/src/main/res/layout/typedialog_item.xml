@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请选择"
+        android:textSize="40dp"/>
+    
+    <RadioGroup
+        android:id="@+id/group"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <RadioButton
+        android:id="@+id/box_clothes"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="20dp"
+        android:text="衣"
+        android:textSize="30dp"
+        android:checked="true"/>
+
+    <RadioButton
+        android:id="@+id/box_eat"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/box_clothes"
+        android:layout_marginLeft="20dp"
+        android:text="食"
+        android:textSize="30dp"/>
+
+    <RadioButton
+        android:id="@+id/box_go"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/box_eat"
+        android:layout_marginLeft="20dp"
+        android:text="行"
+        android:textSize="30dp"/>
+
+    <RadioButton
+        android:id="@+id/box_study"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/box_go"
+        android:layout_marginLeft="20dp"
+        android:text="学"
+        android:textSize="30dp"/>
+
+    <RadioButton
+        android:id="@+id/box_play"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/box_study"
+        android:layout_marginLeft="20dp"
+        android:text="玩"
+        android:textSize="30dp"/>
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/create_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/group"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="70dp"
+        android:text="确定"
+        android:background="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/cancel_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/group"
+        android:layout_marginTop="70dp"
+        android:layout_toRightOf="@id/create_type"
+        android:layout_marginLeft="90dp"
+        android:text="取消"
+        android:background="@color/cardview_shadow_end_color"/>
+
+
+
+
+</RelativeLayout>
