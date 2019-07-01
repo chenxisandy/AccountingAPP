@@ -6,7 +6,7 @@ public interface LoginContract {
         String getName();    //得到登录所用数据
         String getPassWord();
         void loginRemind(boolean isRight);
-        void toEdit(int index);     //得到用户在用户列表的索引，让下一个edit activity加载数据
+        void toList(int index);     //得到用户在用户列表的索引，让下一个edit activity加载数据
     }
 
     interface Presenter {
