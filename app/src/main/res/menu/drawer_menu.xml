@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/user_quit"
+            android:title="退出登录"
+            android:icon="@drawable/ic_person_outline_white_24dp"
+            />
+        <item
+            android:id="@+id/data_table"
+            android:title="数据统计"
+            android:icon="@drawable/ic_data_usage_white_24dp"
+            />
+        <item
+            android:id="@+id/setting"
+            android:title="提醒设置"
+            android:icon="@drawable/ic_settings_white_24dp"
+            />
+    </group>
+</menu>
