@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <EditText
         android:id="@+id/account"
@@ -21,6 +22,7 @@
         android:layout_height="25pt"
         android:hint="Password"
         android:textSize="25dp"
+        android:inputType="textPassword"
         android:background="@android:drawable/edit_text"/>
 
     <Button
@@ -31,6 +33,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="17dp"
         android:text="Sign in or register"
-        android:background="@color/colorAccent"/>
+        android:background="@color/blue"/>
+
+
 
 </RelativeLayout>

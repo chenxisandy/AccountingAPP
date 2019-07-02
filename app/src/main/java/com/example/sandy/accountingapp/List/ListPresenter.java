@@ -1,5 +1,6 @@
-package com.example.sandy.accountingapp.List;
+package com.example.sandy.accountingapp.list;
 
+import com.example.sandy.accountingapp.list.ListContract;
 import com.example.sandy.accountingapp.model.LocalRepo;
 
 public class ListPresenter implements ListContract.Presenter {
@@ -13,7 +14,7 @@ public class ListPresenter implements ListContract.Presenter {
     }
 
     @Override
-    public void showAccounts() {
-
+    public void fillList() {
+        view.setRecyclerView(repo.getAccountListByIndex(view.getIndexFromIntent()));
     }
 }

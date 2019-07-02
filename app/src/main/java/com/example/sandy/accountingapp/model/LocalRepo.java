@@ -20,7 +20,6 @@ public class LocalRepo {
 
     //login
     public boolean checkName(String name) {    //判断在是不是名字
-        // TODO: 2019/6/30
         int i = userList.size();//获得list的大小
         for (int j = 0 ;j < i ; j++){//遍历找用户
             if(userList.get(j).getName().equals(name)){
@@ -31,7 +30,6 @@ public class LocalRepo {
     }
 
     public boolean checkPassWd(String passWord,String name) {
-        // TODO: 2019/6/30
         User user = userList.get(getIndexByName(name));
         if (user.getPassword().equals(passWord)){
             return true;
@@ -53,7 +51,6 @@ public class LocalRepo {
     }
 
     public int getIndexByName(String name) {
-        // TODO: 2019/6/30
         int i = userList.size();//获得list的大小
         for (int j = 0 ;j < i ; j++){//遍历找用户
             if(userList.get(j).getName().equals(name)){
@@ -64,8 +61,13 @@ public class LocalRepo {
     }
 
     public void createUser(String name, String passWd) {
-        // TODO: 2019/6/30
         User user = new User(name,passWd);
+        List<Account> list = new ArrayList<>(); //必须创建一个list以免为空
+        user.setAccountList(list);
         userList.add(user);
+    }
+
+    public List<Account> getAccountListByIndex(int index){
+        return userList.get(index).getAccountList();
     }
 }
