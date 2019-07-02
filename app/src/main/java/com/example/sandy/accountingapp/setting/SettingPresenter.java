@@ -13,12 +13,34 @@ public class SettingPresenter implements SettingContract.Presenter {
     }
 
     @Override
-    public void getUserMax() {
-
+    public void setMaxFromUser() {
+        view.setDayMax(Double.toString(repo.getUserList().get(repo.getCurrentIndexOfUser()).
+                getDayMoney()));
+        view.setWeekMax(Double.toString(repo.getUserList().get(repo.getCurrentIndexOfUser()).
+                getWeekMoney()));
+        view.setMonthMax(Double.toString(repo.getUserList().get(repo.getCurrentIndexOfUser()).
+                getMonthMoney()));
     }
 
     @Override
-    public void gsetUserWeekMax() {
-
+    public void setUserMax() {
+        double dayMoney = Double.parseDouble(view.getDayMax());
+        double weekMoney = Double.parseDouble(view.getWeekMax());
+        double monthMoney = Double.parseDouble(view.getMonthMAx());
+        repo.getUserList().get(repo.getCurrentIndexOfUser()).setDayMoney(dayMoney);
+        repo.getUserList().get(repo.getCurrentIndexOfUser()).setWeekMoney(weekMoney);
+        repo.getUserList().get(repo.getCurrentIndexOfUser()).setMonthMoney(monthMoney);
     }
+
+    @Override
+    public boolean isWarningSignal() {
+        return repo.getUserList().get(repo.getCurrentIndexOfUser()).isWarning();
+    }
+
+    @Override
+    public void changeWarningSignal(boolean signal) {
+        repo.getUserList().get(repo.getCurrentIndexOfUser()).setWarning(signal);
+    }
+
+
 }

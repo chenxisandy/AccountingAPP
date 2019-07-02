@@ -20,5 +20,85 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/set"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="70dp"/>
+        android:layout_marginLeft="70dp" />
+
+    <TextView
+        android:id="@+id/day_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="20dp"
+        android:text="每日最大金额"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        android:layout_below="@id/set"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:id="@+id/day_max_edit"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@android:drawable/edit_text"
+        android:layout_below="@id/max_warning"
+        android:layout_toRightOf="@id/day_max"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="120dp"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/week_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:text="每周最大金额"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        android:layout_below="@id/day_max"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:id="@+id/week_max_edit"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@android:drawable/edit_text"
+        android:layout_below="@id/day_max_edit"
+        android:layout_toRightOf="@id/week_max"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="60dp"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/month_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:text="每月最大金额"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
+        android:layout_below="@id/week_max"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:id="@+id/month_max_edit"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@android:drawable/edit_text"
+        android:layout_below="@id/week_max_edit"
+        android:layout_toRightOf="@id/month_max"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="60dp"
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/create_setting"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/month_max"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="设置"
+        android:visibility="invisible"/>
+
 </RelativeLayout>

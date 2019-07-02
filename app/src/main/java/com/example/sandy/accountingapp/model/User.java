@@ -17,6 +17,8 @@ public class User {
 
     private double monthMoney;
 
+    private boolean isWarning;
+
     public User(String name, String password) {
         this.name = name;
         this.password = password;
@@ -74,5 +76,13 @@ public class User {
 
     public void setAccountList(List<Account> accountList) {
         this.accountList = accountList;
+    }
+
+    public boolean isWarning() {
+        return isWarning;
+    }
+
+    public void setWarning(boolean warning) {
+        isWarning = warning;
     }
 }
