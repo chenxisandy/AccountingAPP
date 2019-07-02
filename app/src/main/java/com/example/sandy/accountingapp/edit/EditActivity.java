@@ -168,7 +168,7 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
         Myyear = calendar.get(calendar.YEAR);
         Mymonth = calendar.get(calendar.MONTH);
         Mydate = calendar.get(calendar.DAY_OF_MONTH);
-        timetext.setText(calendar.DATE);
+        timetext.setText(Myyear + " "+Mymonth+" "+Mydate);
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

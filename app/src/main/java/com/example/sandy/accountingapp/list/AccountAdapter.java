@@ -1,6 +1,7 @@
 package com.example.sandy.accountingapp.list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sandy.accountingapp.R;
+import com.example.sandy.accountingapp.edit.EditActivity;
 import com.example.sandy.accountingapp.model.Account;
 
 import java.util.List;
@@ -33,7 +35,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Account account = accountList.get(i);
 
         if (!account.isSignal()) {  //如果金额为负
@@ -65,7 +67,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2019/7/1 add intent
+                Intent intent = new Intent(mContext, EditActivity.class);
+                intent.putExtra("accountIndex", i);
+                mContext.startActivity(intent);
             }
         });
     }

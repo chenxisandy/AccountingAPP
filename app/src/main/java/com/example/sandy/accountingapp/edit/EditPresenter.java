@@ -34,14 +34,12 @@ public class EditPresenter implements EditContract.Presenter {
         account.setMonth(month);
         account.setDay(day);
         account.setSignal(signal);
-//        repo.getAccountListByIndex().add(account)//添加到AccountList
-        // TODO: 2019/7/2  明天push后加上函数
+        repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).add(account);//添加到AccountList
         View.DoFinish();//结束创建界面，返回List界面
     }
 
     public void createOldEdit(int acountIndex){
-        int userIndex = 0;//从repo获取当前用户的Index;
-        // TODO: 2019/7/2  明天push后改成函数
+        int userIndex = repo.getCurrentIndexOfUser();//从repo获取当前用户的Index;
         View.setAll(repo.getAccountListByIndex(userIndex).get(acountIndex));
     }
 }
