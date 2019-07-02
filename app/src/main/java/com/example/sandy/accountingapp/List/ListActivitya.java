@@ -20,7 +20,7 @@ import com.example.sandy.accountingapp.model.LocalRepo;
 
 import java.util.List;
 
-public class ListActivity extends AppCompatActivity implements ListContract.View, NavigationView.OnNavigationItemSelectedListener {
+public class ListActivitya extends AppCompatActivity implements ListContract.View, NavigationView.OnNavigationItemSelectedListener {
 
     private ListContract.Presenter presenter;
 
