@@ -1,5 +1,6 @@
 package com.example.sandy.accountingapp.login;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.sandy.accountingapp.R;
+import com.example.sandy.accountingapp.list.ListActivity;
 import com.example.sandy.accountingapp.model.LocalRepo;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View , View.OnClickListener {
@@ -49,7 +51,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void toList(int index) {
-
+        Intent intent = new Intent(this, ListActivity.class);
+        intent.putExtra(getString(R.string.user_index), index);
+        startActivity(intent);
     }
 
     @Override

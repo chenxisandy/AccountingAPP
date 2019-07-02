@@ -71,4 +71,8 @@ public class User {
     public void addAccount(Account account){
         accountList.add(account);
     }
+
+    public void setAccountList(List<Account> accountList) {
+        this.accountList = accountList;
+    }
 }
