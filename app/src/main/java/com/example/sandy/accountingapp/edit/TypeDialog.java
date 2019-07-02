@@ -17,6 +17,7 @@ public class TypeDialog extends Dialog implements View.OnClickListener ,
     private RadioGroup group;
     private Button create;
     private Button cancel;
+    private DialogListener.typeListener typeListener;
 
 
 
@@ -50,14 +51,19 @@ public class TypeDialog extends Dialog implements View.OnClickListener ,
             case R.id.create_type:
                 switch (group.getCheckedRadioButtonId()){
                     case R.id.box_clothes:
+                        typeListener.setType("衣");
                         break;
                     case R.id.box_eat:
+                        typeListener.setType("食");
                         break;
                     case R.id.box_go:
+                        typeListener.setType("行");
                         break;
                     case R.id.box_study:
+                        typeListener.setType("学");
                         break;
                     case R.id.box_play:
+                        typeListener.setType("玩");
                         break;
                 }
                 dismiss();
@@ -72,5 +78,9 @@ public class TypeDialog extends Dialog implements View.OnClickListener ,
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
+    }
+
+    public void setTypeListener(DialogListener.typeListener listener){
+        typeListener = listener;
     }
 }

@@ -38,8 +38,8 @@ public class EditPresenter implements EditContract.Presenter {
         View.DoFinish();//结束创建界面，返回List界面
     }
 
-    public void createOldEdit(int acountIndex){
+    public void createOldEdit(int accountIndex){
         int userIndex = repo.getCurrentIndexOfUser();//从repo获取当前用户的Index;
-        View.setAll(repo.getAccountListByIndex(userIndex).get(acountIndex));
+        View.setAll(repo.getAccountListByIndex(userIndex).get(accountIndex));
     }
 }
