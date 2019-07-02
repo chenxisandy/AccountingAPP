@@ -168,14 +168,14 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
         Myyear = calendar.get(calendar.YEAR);
         Mymonth = calendar.get(calendar.MONTH);
         Mydate = calendar.get(calendar.DAY_OF_MONTH);
-        timetext.setText(Myyear + " "+Mymonth+" "+Mydate);
+        timetext.setText(Myyear + " "+ Mymonth+1 +" "+Mydate);
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Myyear = year;
                 Mymonth = month;
                 Mydate = dayOfMonth;
-                timetext.setText(Myyear+" "+Mymonth+" "+Mydate);
+                timetext.setText(Myyear+" "+ Mymonth+1 +" "+Mydate);
             }
         };
         datePickerDialog = new DatePickerDialog(this , listener, Myyear ,Mymonth,Mydate);
@@ -192,7 +192,7 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
         timetext.setOnClickListener(this);
         moodtext.setOnClickListener(this);
         typetext.setOnClickListener(this);
-        radioGroup.findViewById(R.id.account_type);
+        radioGroup = findViewById(R.id.account_type);
         mpresenter = new EditPresenter(this, LocalRepo.getInstance());
         Intent intent = getIntent();
         String type = intent.getStringExtra("type");
