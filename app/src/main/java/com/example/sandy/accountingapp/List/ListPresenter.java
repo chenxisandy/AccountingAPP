@@ -1,6 +1,5 @@
 package com.example.sandy.accountingapp.list;
 
-import com.example.sandy.accountingapp.list.ListContract;
 import com.example.sandy.accountingapp.model.LocalRepo;
 
 public class ListPresenter implements ListContract.Presenter {
