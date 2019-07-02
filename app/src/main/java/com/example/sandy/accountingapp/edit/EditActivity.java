@@ -2,6 +2,8 @@ package com.example.sandy.accountingapp.edit;
 
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +11,10 @@ import android.widget.Button;
 
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import com.example.sandy.accountingapp.R;
+import com.example.sandy.accountingapp.model.Account;
 import com.example.sandy.accountingapp.model.LocalRepo;
 
 import java.util.Calendar;
@@ -27,34 +31,37 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     private int Myyear,Mymonth,Mydate;
     private DatePickerDialog datePickerDialog;
     private DatePickerDialog.OnDateSetListener listener;
+    private RadioGroup radioGroup;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-        moneytext = findViewById(R.id.money_edit);
-        timetext = findViewById(R.id.time_edit);
-        moodtext = findViewById(R.id.mood_edit);
-        notetext = findViewById(R.id.note_edit);
-        typetext = findViewById(R.id.type_edit);
-        create = findViewById(R.id.create);
-        create.setOnClickListener(this);
-        timetext.setOnClickListener(this);
-        moodtext.setOnClickListener(this);
-        typetext.setOnClickListener(this);
-        mpresenter = new EditPresenter(this, LocalRepo.getInstance());
-        getCalendar();
+        initView();
     }
 
     @Override
-    public double getmoney() {
+    public double getMoney() {
         return Double.parseDouble(moneytext.getText().toString());
     }
 
     @Override
-    public long gettime() {
-        return 0;
+    public String getYear() {
+        return Integer.toString(Myyear);
     }
+
+    @Override
+    public String getMonth() {
+        return Integer.toString(Mymonth);
+    }
+
+    @Override
+    public String getDay() {
+        return Integer.toString(Mydate);
+    }
+
 
     @Override
     public int getType() {
@@ -75,7 +82,7 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     }
 
     @Override
-    public int getmood() {
+    public int getMood() {
         switch (moodtext.getText().toString()){
             case "Happy" :
                 return 5;
@@ -91,8 +98,49 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     }
 
     @Override
-    public String getnote() {
+    public String getNote() {
         return notetext.getText().toString();
+    }
+
+    @Override
+    public boolean getSignal() {
+        switch (radioGroup.getCheckedRadioButtonId()){
+            case R.id.income : return true;
+            case R.id.outcome : return false;
+            default: return false;
+        }
+    }
+
+    @Override
+    public void DoFinish() {
+        this.finish();
+    }
+
+    @Override
+    public void setAll(Account account) {
+        moneytext.setText(Double.toString(account.getMoney()));
+        timetext.setText(account.getYear()+" "+account.getMonth()+" "+account.getDay());
+        switch (account.getType()){
+            case 0: typetext.setText("衣");break;
+            case 1: typetext.setText("食");break;
+            case 2: typetext.setText("行");break;
+            case 3: typetext.setText("游");break;
+            case 4: typetext.setText("玩");break;
+            default: typetext.setText("衣");break;
+        }
+        switch (account.getMood()){
+            case 5:moodtext.setText("Happy");break;
+            case 6:moodtext.setText("Sad");break;
+            case 7:moodtext.setText("Excited");break;
+            case 8:moodtext.setText("Other");break;
+            default:moodtext.setText("Happy");break;
+        }
+        if (account.isSignal()){
+            radioGroup.check(R.id.income);
+        }else {
+            radioGroup.check(R.id.outcome);
+        }
+        notetext.setText(account.getNote());
     }
 
     @Override
@@ -127,9 +175,37 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
                 Myyear = year;
                 Mymonth = month;
                 Mydate = dayOfMonth;
+                timetext.setText(Myyear+" "+Mymonth+" "+Mydate);
             }
         };
         datePickerDialog = new DatePickerDialog(this , listener, Myyear ,Mymonth,Mydate);
     }
+
+    private void initView(){
+        moneytext = findViewById(R.id.money_edit);
+        timetext = findViewById(R.id.time_edit);
+        moodtext = findViewById(R.id.mood_edit);
+        notetext = findViewById(R.id.note_edit);
+        typetext = findViewById(R.id.type_edit);
+        create = findViewById(R.id.create);
+        create.setOnClickListener(this);
+        timetext.setOnClickListener(this);
+        moodtext.setOnClickListener(this);
+        typetext.setOnClickListener(this);
+        radioGroup.findViewById(R.id.account_type);
+        mpresenter = new EditPresenter(this, LocalRepo.getInstance());
+        Intent intent = getIntent();
+        String type = intent.getStringExtra("type");
+        if (type.equals("new")){
+            getCalendar();
+        }else {
+            int index = intent.getIntExtra("accountIndex",0);
+            mpresenter.createOldEdit(index);
+        }
+    }
+
+
+
+
 }
 

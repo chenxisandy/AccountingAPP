@@ -4,14 +4,40 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
+    <RadioGroup
+        android:id="@+id/account_type"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/income"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:text="收入"
+            android:textSize="30sp"
+            android:layout_marginLeft="40dp" />
+
+        <RadioButton
+            android:id="@+id/outcome"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_marginLeft="80dp"
+            android:text="支出"
+            android:textSize="30sp"
+            android:checked="true"/>
+
+
+    </RadioGroup>
+
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="时间"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_marginLeft="20dp"
-        />
+        android:layout_below="@id/account_type" />
 
     <EditText
         android:id="@+id/time_edit"
@@ -19,14 +45,15 @@
         android:layout_height="40dp"
         android:layout_toRightOf="@id/time"
         android:layout_marginLeft="20dp"
-        android:background="@android:drawable/edit_text"/>
+        android:background="@android:drawable/edit_text"
+        android:layout_below="@id/account_type"/>
 
     <TextView
         android:id="@+id/mood"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="心情"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_marginLeft="20dp"
         android:layout_below="@id/time"
         android:layout_marginTop="30dp" />
@@ -46,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="金额"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_marginLeft="20dp"
         android:layout_below="@id/mood"
         android:layout_marginTop="30dp"/>
@@ -66,7 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="类型"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_marginLeft="20dp"
         android:layout_below="@id/money"
         android:layout_marginTop="30dp"/>
@@ -86,7 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="备注"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_marginLeft="20dp"
         android:layout_below="@id/type"
         android:layout_marginTop="30dp"/>

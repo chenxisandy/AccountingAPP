@@ -3,6 +3,8 @@ package com.example.sandy.accountingapp.edit;
 import com.example.sandy.accountingapp.model.Account;
 import com.example.sandy.accountingapp.model.LocalRepo;
 
+import java.util.List;
+
 public class EditPresenter implements EditContract.Presenter {
 
     private EditContract.View View;
@@ -15,12 +17,31 @@ public class EditPresenter implements EditContract.Presenter {
 
     @Override
     public void BackToList() {
-        Double money = View.getmoney();
-        long time = View.gettime();
+        Double money = View.getMoney();
         int type = View.getType();
-        int mood = View.getmood();
-        String note = View.getnote();
-        Account account = new Account();
+        int mood = View.getMood();
+        String note = View.getNote();
+        String year = View.getYear();
+        String month = View.getMonth();
+        String day = View.getDay();
+        boolean signal = View.getSignal();
+        Account account = new Account();//创建新帐单
+        account.setMoney(money);
+        account.setNote(note);
+        account.setMood(mood);
+        account.setType(type);
+        account.setYear(year);
+        account.setMonth(month);
+        account.setDay(day);
+        account.setSignal(signal);
+//        repo.getAccountListByIndex().add(account)//添加到AccountList
+        // TODO: 2019/7/2  明天push后加上函数
+        View.DoFinish();//结束创建界面，返回List界面
+    }
 
+    public void createOldEdit(int acountIndex){
+        int userIndex = 0;//从repo获取当前用户的Index;
+        // TODO: 2019/7/2  明天push后改成函数
+        View.setAll(repo.getAccountListByIndex(userIndex).get(acountIndex));
     }
 }
