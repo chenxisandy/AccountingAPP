@@ -1,4 +1,4 @@
-package com.example.sandy.accountingapp.edit;
+package com.example.sandy.accountingapp.Edit;
 
 public interface EditContract {
 

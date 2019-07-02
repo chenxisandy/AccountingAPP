@@ -1,4 +1,4 @@
-package com.example.sandy.accountingapp.edit;
+package com.example.sandy.accountingapp.Edit;
 
 import com.example.sandy.accountingapp.model.Account;
 import com.example.sandy.accountingapp.model.LocalRepo;

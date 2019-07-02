@@ -1,4 +1,4 @@
-package com.example.sandy.accountingapp.edit;
+package com.example.sandy.accountingapp.Edit;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.widget.RadioGroup;
 
 import com.example.sandy.accountingapp.R;
 
-public class TypeDialog extends Dialog implements View.OnClickListener ,
+public class MoodDialog extends Dialog implements View.OnClickListener ,
         RadioGroup.OnCheckedChangeListener {
 
     private Context mcontext;
@@ -19,61 +19,54 @@ public class TypeDialog extends Dialog implements View.OnClickListener ,
     private Button cancel;
     private EditText text;
 
-
-
-    public TypeDialog(Context context) {
+    public MoodDialog(Context context) {
         super(context);
         mcontext = context;
-
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = View.inflate(mcontext,R.layout.typedialog_item,null);
+        View view = View.inflate(mcontext, R.layout.mooddialog,null);
         setContentView(view);
-        setCanceledOnTouchOutside(false);//点击外侧无法取消
+        setCanceledOnTouchOutside(false);
         init();
     }
 
     private void init(){
-        create = findViewById(R.id.create_type);
-        cancel = findViewById(R.id.cancel_type);
+        group = findViewById(R.id.mood_group);
+        create = findViewById(R.id.create_mood);
+        cancel = findViewById(R.id.cancel_mood);
         create.setOnClickListener(this);
         cancel.setOnClickListener(this);
-        group = findViewById(R.id.group);
-        text = findViewById(R.id.type_edit);
+        text = findViewById(R.id.mood_edit);
         group.setOnCheckedChangeListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.create_type:
+            case R.id.create_mood:
                 switch (group.getCheckedRadioButtonId()){
-                    case R.id.box_clothes:
-                        text.setText("衣");
+                    case R.id.happy_button:
+                        text.setText("Happy");
                         break;
-                    case R.id.box_eat:
-                        text.setText("食");
+                    case R.id.Sad_button:
+                        text.setText("Sad");
                         break;
-                    case R.id.box_go:
-                        text.setText("行");
+                    case R.id.Excited_button:
+                        text.setText("Excited");
                         break;
-                    case R.id.box_study:
-                        text.setText("学");
-                        break;
-                    case R.id.box_play:
-                        text.setText("玩");
+                    case R.id.Other_button:
+                        text.setText("Other");
                         break;
                 }
                 dismiss();
                 break;
-            case R.id.cancel_type:
+            case R.id.cancel_mood:
                 dismiss();
-                break;
-
         }
+
     }
 
     @Override
