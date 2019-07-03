@@ -18,6 +18,16 @@ public class Account {
 
     public static final int PLAY = 4;
 
+    //收入类型 工资，礼物，理财
+
+    public static final int WAGES = 9;
+
+    public static final int GIFT = 10;
+
+    public static final int FINANCIAL_MANAGEMENT = 11;
+
+    public static final int ELSE = 12;
+
     //mood
     public static final int HAPPY = 5;
 

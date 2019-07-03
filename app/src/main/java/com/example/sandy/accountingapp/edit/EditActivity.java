@@ -23,8 +23,9 @@ import com.example.sandy.accountingapp.model.LocalRepo;
 
 import java.util.Calendar;
 
-public class EditActivity extends AppCompatActivity implements EditContract.View ,
-        View.OnClickListener ,DialogListener.typeListener ,DialogListener.moodListener{
+public class EditActivity extends AppCompatActivity implements EditContract.View , View.
+        OnClickListener ,DialogListener.typeListener ,DialogListener.moodListener,DialogListener.
+        incomeListener{
 
     private EditText moneytext;
     private EditText timetext;
@@ -221,9 +222,18 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
                 moodDialog.show();
                 break;
             case R.id.type_edit://选择类型
-                TypeDialog typeDialog = new TypeDialog(this);
-                typeDialog.setTypeListener(this);
-                typeDialog.show();
+                switch (radioGroup.getCheckedRadioButtonId()){
+                    case R.id.outcome:
+                        TypeDialog typeDialog = new TypeDialog(this);
+                        typeDialog.setTypeListener(this);
+                        typeDialog.show();
+                        break;
+                    case R.id.income:
+                        IncomeDialog incomeDialog = new IncomeDialog(this);
+                        incomeDialog.setIncomeListener(this);
+                        incomeDialog.show();
+                        break;
+                }
                 break;
             }
         }
@@ -281,5 +291,9 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     }
 
 
+    @Override
+    public void setIncomeType(String incomeType) {
+        typetext.setText(incomeType);
+    }
 }
 

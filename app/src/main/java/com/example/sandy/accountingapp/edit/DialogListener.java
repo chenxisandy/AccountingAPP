@@ -10,4 +10,8 @@ public interface DialogListener {
         void setMood(String mood);
     }
 
+    interface incomeListener{
+        void setIncomeType(String incomeType);
+    }
+
 }
