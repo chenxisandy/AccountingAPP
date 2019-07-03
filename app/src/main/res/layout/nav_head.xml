@@ -6,11 +6,11 @@
     android:layout_height="160dp"
     android:padding="10dp"
     android:background="@color/blue">
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-        />
+         />
     <!--todo background:背景靠叶，实在不行再说-->
 
 

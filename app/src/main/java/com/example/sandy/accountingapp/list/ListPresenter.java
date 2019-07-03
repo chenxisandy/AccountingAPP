@@ -29,4 +29,10 @@ public class ListPresenter implements ListContract.Presenter {
 
     }
 
+    // TODO: 2019/7/3 to delete
+    @Override
+    public void upDateList() {
+        view.setRecyclerView(repo.getAccountListByIndex(repo.getCurrentIndexOfUser()));
+    }
+
 }

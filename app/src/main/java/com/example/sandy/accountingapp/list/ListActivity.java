@@ -30,6 +30,8 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
 
     private DrawerLayout mDrawerLayout;
 
+    private AccountAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +68,8 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        AccountAdapter adapter = new AccountAdapter(list);
-        recyclerView.setAdapter(adapter);
+        mAdapter = new AccountAdapter(list);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -123,5 +125,13 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
                 break;
         }
         return true;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        mAdapter.notifyDataSetChanged();
+        //presenter.upDateList();
+
     }
 }

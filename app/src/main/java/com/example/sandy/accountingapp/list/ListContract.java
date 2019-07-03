@@ -19,5 +19,7 @@ public interface ListContract {
 
         void toDataTable(); //去用户表格界面
 
+        void upDateList();  // TODO: 2019/7/3 to delete
+
     }
 }
