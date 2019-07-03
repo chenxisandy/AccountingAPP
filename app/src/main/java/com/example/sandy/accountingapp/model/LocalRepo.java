@@ -1,5 +1,14 @@
 package com.example.sandy.accountingapp.model;
 
+import android.graphics.Color;
+import android.util.DisplayMetrics;
+import android.view.Display;
+
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+
 import android.icu.util.Calendar;
 
 import java.text.ParseException;
@@ -165,6 +174,62 @@ public class LocalRepo {
 
     public void setCurrentIndexOfUser(int currentIndexOfUser) {
         this.currentIndexOfUser = currentIndexOfUser;
+    }
+
+    //chart table
+    public PieData getPieData(float range) {
+        List<String> xValues = new ArrayList<>();   //存数据名称
+        xValues.add("衣服");
+        xValues.add("食物");
+        xValues.add("出行");
+        xValues.add("学习");
+        xValues.add("娱乐");
+
+        List<PieEntry> yValues = new ArrayList<>();    //存实际数据
+
+        float clothQuarter = 0;
+        float eatQuarter = 0;
+        float goQuarter = 0;
+        float studyQuarter = 0;
+        float playQuarter = 0;
+
+        //userList.get(currentIndexOfUser).getAccountList();
+        for (Account account :
+                userList.get(currentIndexOfUser).getAccountList()) {
+            switch (account.getType()) {
+                case Account.CLOTH:
+                    clothQuarter = (float) (account.getMoney()) + clothQuarter;
+                    break;
+                case Account.EAT:
+                    eatQuarter += (float) (account.getMoney());
+                    break;
+                case Account.GO:
+                    goQuarter += (float) (account.getMoney());
+                    break;
+                case Account.STUDY:
+                    studyQuarter += (float) (account.getMoney());
+                    break;
+                case Account.PLAY:
+                    playQuarter += (float) (account.getMoney());
+                    break;
+            }
+        }
+
+        yValues.add(new PieEntry(clothQuarter, 0));
+        yValues.add(new PieEntry(eatQuarter, 1));
+        yValues.add(new PieEntry(goQuarter, 2));
+        yValues.add(new PieEntry(studyQuarter, 3));
+        yValues.add(new PieEntry(playQuarter, 4));
+
+        //y轴集合
+        PieDataSet pieDataSet = new PieDataSet(yValues, "消费分类统计");
+        pieDataSet.setSliceSpace(0f);   //设置饼状图地之间地距离
+
+        pieDataSet.setColors(Color.BLUE, Color.GREEN, Color.GRAY, Color.YELLOW, Color.DKGRAY);
+
+
+        return new PieData(pieDataSet);
+
     }
 
 }

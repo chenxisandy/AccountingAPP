@@ -48,16 +48,16 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
         switch (account.getType()) {
             case Account.CLOTH:
-                viewHolder.typeImg.setImageResource(R.drawable.clothe);
+                viewHolder.typeImg.setImageResource(R.drawable.cloth);
                 break;
             case Account.EAT:
                 viewHolder.typeImg.setImageResource(R.drawable.eat);
                 break;
             case Account.GO:
-                viewHolder.typeImg.setImageResource(R.drawable.car);
+                viewHolder.typeImg.setImageResource(R.drawable.go);
                 break;
             case Account.STUDY:
-                viewHolder.typeImg.setImageResource(R.drawable.book);
+                viewHolder.typeImg.setImageResource(R.drawable.study);
                 break;
             case Account.PLAY:
                 viewHolder.typeImg.setImageResource(R.drawable.play);
@@ -69,6 +69,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, EditActivity.class);
                 intent.putExtra("accountIndex", i);
+                intent.putExtra("type", "old");
                 mContext.startActivity(intent);
             }
         });

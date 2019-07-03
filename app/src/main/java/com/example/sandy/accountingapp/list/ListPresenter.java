@@ -26,7 +26,7 @@ public class ListPresenter implements ListContract.Presenter {
 
     @Override
     public void toDataTable() {
-
+        view.toDataTable();
     }
 
     // TODO: 2019/7/3 to delete

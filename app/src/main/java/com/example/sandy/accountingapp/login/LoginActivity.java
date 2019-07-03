@@ -60,7 +60,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.Sign_in_or_register:
-                mpresenter.LoginIn();
+                if (account.getText().toString().length() == 0) {
+                    Toast.makeText(this, "请输入用户名", Toast.LENGTH_SHORT).show();
+                } else if (password.getText().toString().length() >= 3) {
+                    mpresenter.LoginIn();
+                } else {
+                    Toast.makeText(this, "密码必须大于3位", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
