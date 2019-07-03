@@ -85,4 +85,5 @@ public class User {
     public void setWarning(boolean warning) {
         isWarning = warning;
     }
+
 }

@@ -15,7 +15,9 @@ public interface EditContract {
         boolean getSignal();
         void DoFinish();
         void setAll(Account account);
-
+        void sendDayNotification();
+        void sendWeekNotification();
+        void sendMonthNotification();
     }
 
     interface Presenter{

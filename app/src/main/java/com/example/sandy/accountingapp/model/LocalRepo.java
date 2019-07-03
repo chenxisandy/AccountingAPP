@@ -1,6 +1,11 @@
 package com.example.sandy.accountingapp.model;
 
+import android.icu.util.Calendar;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class LocalRepo {
@@ -46,6 +51,86 @@ public class LocalRepo {
         // TODO: 2019/6/30
         return null;
     }
+
+    public boolean isBeyondDayMax(){////判断是否超过每日最大金额
+        double total = 0;
+        Calendar calendar = Calendar.getInstance();
+        String year = Integer.toString(calendar.get(Calendar.YEAR));
+        int i = calendar.get(Calendar.MONTH) + 1;
+        String month = Integer.toString(i);
+        String day = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
+        for (Account account : getAccountListByIndex(getCurrentIndexOfUser())){
+            if (year.equals(account.getYear())){
+                if (month.equals(account.getMonth())){
+                    if (day.equals(account.getDay())){
+                        if (!account.isSignal()){
+                            total = total + account.getMoney();
+                        }
+                    }
+                }
+            }
+        }
+        if (total >= getUserList().get(getCurrentIndexOfUser()).getDayMoney()){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean isBeyondMonthMax(){//判断是否超过每月最大金额
+        double total = 0;
+        Calendar calendar = Calendar.getInstance();
+        String year = Integer.toString(calendar.get(Calendar.YEAR));
+        for (Account account : getAccountListByIndex(getCurrentIndexOfUser())){
+            if (year.equals(account.getYear())){
+                if (!account.isSignal()){
+                    total = total + account.getMoney();
+                }
+            }
+        }
+        if (total >= getUserList().get(getCurrentIndexOfUser()).getMonthMoney()){
+            return true;
+        }else {
+          return false;
+        }
+    }
+
+    public boolean isBeyondWeekMax(){//判断是否超过每周最大金额
+        double total = 0;
+        Calendar calendar = Calendar.getInstance();
+        int i = calendar.get(Calendar.WEEK_OF_YEAR);
+        String year = Integer.toString(calendar.get(Calendar.YEAR));
+        for (Account account : getAccountListByIndex(getCurrentIndexOfUser())){
+              if (year.equals(account.getYear())){
+                  if (i == getWeek(account.getYear()+"-"+account.getMonth()+"-"+
+                          account.getDay())){
+                      if (! account.isSignal()){
+                          total = total + account.getMoney();
+                      }
+                  }
+              }
+        }
+        if (total >= getUserList().get(getCurrentIndexOfUser()).getWeekMoney()){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public int getWeek(String str){
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = sdf.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int week = calendar.get(Calendar.WEEK_OF_YEAR);
+        return week;
+    }
+
 
 
     public List<User> getUserList() {
