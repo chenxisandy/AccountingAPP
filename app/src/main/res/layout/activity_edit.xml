@@ -86,7 +86,8 @@
         android:layout_marginLeft="20dp"
         android:layout_below="@id/mood_edit"
         android:layout_marginTop="30dp"
-        android:background="@android:drawable/edit_text"/>
+        android:background="@android:drawable/edit_text"
+        android:inputType="numberDecimal"/>
 
     <TextView
         android:id="@+id/type"

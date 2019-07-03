@@ -19,7 +19,8 @@ import com.example.sandy.accountingapp.model.LocalRepo;
 
 import java.util.Calendar;
 
-public class EditActivity extends AppCompatActivity implements EditContract.View ,View.OnClickListener {
+public class EditActivity extends AppCompatActivity implements EditContract.View ,
+        View.OnClickListener ,DialogListener.typeListener ,DialogListener.moodListener{
 
     private EditText moneytext;
     private EditText timetext;
@@ -154,10 +155,12 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
                 break;
             case R.id.mood_edit://选择心情
                 MoodDialog moodDialog = new MoodDialog(this);
+                moodDialog.setMoodListener(this);
                 moodDialog.show();
                 break;
             case R.id.type_edit://选择类型
                 TypeDialog typeDialog = new TypeDialog(this);
+                typeDialog.setTypeListener(this);
                 typeDialog.show();
                 break;
             }
@@ -166,16 +169,16 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     private void getCalendar(){//获取日历时间
         Calendar calendar = Calendar.getInstance();
         Myyear = calendar.get(calendar.YEAR);
-        Mymonth = calendar.get(calendar.MONTH);
+        Mymonth = calendar.get(calendar.MONTH)+1;
         Mydate = calendar.get(calendar.DAY_OF_MONTH);
-        timetext.setText(calendar.DATE);
+        timetext.setText(Myyear + " "+ Mymonth +" "+Mydate);
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Myyear = year;
-                Mymonth = month;
+                Mymonth = month + 1 ;
                 Mydate = dayOfMonth;
-                timetext.setText(Myyear+" "+Mymonth+" "+Mydate);
+                timetext.setText(Myyear+" "+ Mymonth +" "+Mydate);
             }
         };
         datePickerDialog = new DatePickerDialog(this , listener, Myyear ,Mymonth,Mydate);
@@ -192,7 +195,7 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
         timetext.setOnClickListener(this);
         moodtext.setOnClickListener(this);
         typetext.setOnClickListener(this);
-        radioGroup.findViewById(R.id.account_type);
+        radioGroup = findViewById(R.id.account_type);
         mpresenter = new EditPresenter(this, LocalRepo.getInstance());
         Intent intent = getIntent();
         String type = intent.getStringExtra("type");
@@ -205,7 +208,14 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     }
 
 
+    @Override
+    public void setType(String type) {
+        typetext.setText(type);
+    }
 
-
+    @Override
+    public void setMood(String mood) {
+        moodtext.setText(mood);
+    }
 }
 

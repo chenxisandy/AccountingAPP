@@ -3,16 +3,18 @@ package com.example.sandy.accountingapp.setting;
 public interface SettingContract {
 
     interface View{
-        void setDayMax();
-        void getDayMax();
-        void setWeekMax();
-        void getWeekMax();
-        void setMonthMax();
-        void getMonthMAx();
+        void setDayMax(String s);
+        String getDayMax();
+        void setWeekMax(String s);
+        String getWeekMax();
+        void setMonthMax(String s);
+        String getMonthMAx();
     }
 
     interface Presenter{
-        void getUserMax();
-        void gsetUserWeekMax();
+        void setMaxFromUser();
+        void setUserMax();
+        boolean isWarningSignal();
+        void changeWarningSignal(boolean signal);
     }
 }

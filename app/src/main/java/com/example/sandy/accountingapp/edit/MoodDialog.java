@@ -17,7 +17,7 @@ public class MoodDialog extends Dialog implements View.OnClickListener ,
     private RadioGroup group;
     private Button create;
     private Button cancel;
-    private EditText text;
+    private DialogListener.moodListener moodListener;
 
     public MoodDialog(Context context) {
         super(context);
@@ -39,7 +39,6 @@ public class MoodDialog extends Dialog implements View.OnClickListener ,
         cancel = findViewById(R.id.cancel_mood);
         create.setOnClickListener(this);
         cancel.setOnClickListener(this);
-        text = findViewById(R.id.mood_edit);
         group.setOnCheckedChangeListener(this);
     }
 
@@ -49,16 +48,16 @@ public class MoodDialog extends Dialog implements View.OnClickListener ,
             case R.id.create_mood:
                 switch (group.getCheckedRadioButtonId()){
                     case R.id.happy_button:
-                        text.setText("Happy");
+                        moodListener.setMood("Happy");
                         break;
                     case R.id.Sad_button:
-                        text.setText("Sad");
+                        moodListener.setMood("Sad");
                         break;
                     case R.id.Excited_button:
-                        text.setText("Excited");
+                        moodListener.setMood("Excited");
                         break;
                     case R.id.Other_button:
-                        text.setText("Other");
+                        moodListener.setMood("Other");
                         break;
                 }
                 dismiss();
@@ -73,4 +72,10 @@ public class MoodDialog extends Dialog implements View.OnClickListener ,
     public void onCheckedChanged(RadioGroup group, int checkedId) {
 
     }
+
+    public void setMoodListener(DialogListener.moodListener listeneer){
+        moodListener = listeneer;
+    }
+
+
 }
