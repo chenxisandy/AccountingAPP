@@ -14,6 +14,19 @@ public class ListPresenter implements ListContract.Presenter {
 
     @Override
     public void fillList() {
-        view.setRecyclerView(repo.getAccountListByIndex(view.getIndexFromIntent()));
+        int curIndex = view.getIndexFromIntent();
+        view.setRecyclerView(repo.getAccountListByIndex(curIndex));
+        repo.setCurrentIndexOfUser(curIndex);
     }
+
+    @Override
+    public void toEdit() {
+        view.toEdit();
+    }
+
+    @Override
+    public void toDataTable() {
+
+    }
+
 }

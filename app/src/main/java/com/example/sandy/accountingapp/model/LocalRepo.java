@@ -18,6 +18,8 @@ public class LocalRepo {
 
     private List<User> userList = new ArrayList<>();
 
+    private int currentIndexOfUser;     //用来存当前的UserIndex
+
     //login
     public boolean checkName(String name) {    //判断在是不是名字
         int i = userList.size();//获得list的大小
@@ -67,7 +69,17 @@ public class LocalRepo {
         userList.add(user);
     }
 
+    //list
     public List<Account> getAccountListByIndex(int index){
         return userList.get(index).getAccountList();
     }
+
+    public int getCurrentIndexOfUser() {
+        return currentIndexOfUser;
+    }
+
+    public void setCurrentIndexOfUser(int currentIndexOfUser) {
+        this.currentIndexOfUser = currentIndexOfUser;
+    }
+
 }
