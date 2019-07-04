@@ -42,7 +42,7 @@ public class EditPresenter implements EditContract.Presenter {
             repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).add(account);//添加到AccountList
             isBeyondMax();
             View.DoFinish();//结束创建界面，返回List界面
-        }else {
+        }else {//更改老账单
             repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setYear(year);
             repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setMonth(month);
             repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setDay(day);
