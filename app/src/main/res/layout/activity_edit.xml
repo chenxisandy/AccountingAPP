@@ -137,7 +137,8 @@
         android:layout_marginLeft="20dp"
         android:layout_below="@id/type_edit"
         android:layout_marginTop="30dp"
-        android:background="@android:drawable/edit_text"/>
+        android:background="@android:drawable/edit_text"
+        android:gravity="top"/>
 
     <Button
         android:id="@+id/create"

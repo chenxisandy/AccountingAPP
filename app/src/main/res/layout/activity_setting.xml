@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_setting">
 
     <TextView
         android:id="@+id/set"
@@ -32,7 +33,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="30sp"
         android:layout_below="@id/set"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
     <EditText
         android:id="@+id/day_max_edit"
@@ -43,7 +44,8 @@
         android:layout_toRightOf="@id/day_max"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="120dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:inputType="numberDecimal"/>
 
     <TextView
         android:id="@+id/week_max"
@@ -66,7 +68,8 @@
         android:layout_toRightOf="@id/week_max"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="60dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:inputType="numberDecimal"/>
 
     <TextView
         android:id="@+id/month_max"
@@ -89,7 +92,8 @@
         android:layout_toRightOf="@id/month_max"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="60dp"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:inputType="numberDecimal"/>
 
     <Button
         android:id="@+id/create_setting"
