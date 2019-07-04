@@ -18,9 +18,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.sandy.accountingapp.R;
+import com.example.sandy.accountingapp.dateChart.ChartActivity;
 import com.example.sandy.accountingapp.edit.EditActivity;
 import com.example.sandy.accountingapp.model.Account;
 import com.example.sandy.accountingapp.model.LocalRepo;
+import com.example.sandy.accountingapp.setting.SettingActivity;
 
 import java.util.List;
 
@@ -87,7 +89,8 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
 
     @Override
     public void toDataTable() {
-        // TODO: 2019/7/2  
+        Intent intent = new Intent(this, ChartActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -101,16 +104,17 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
         switch (menuItem.getItemId()) {
             case R.id.user_quit:
                 Toast.makeText(this, "退出登录成功", Toast.LENGTH_SHORT).show();
-                // TODO: 2019/7/1 处理数据，存好后回到登录界面
+                presenter.toDataTable();
                 finish();
                 break;
             case R.id.data_table:
                 Toast.makeText(this, "进入数据统计界面", Toast.LENGTH_SHORT).show();
-                
+                presenter.toDataTable();
                 break;
             case R.id.setting:
                 Toast.makeText(this, "进入设置界面", Toast.LENGTH_SHORT).show();
-                //todo 进入设置
+                Intent intent = new Intent(this, SettingActivity.class);
+                startActivity(intent);
                 break;
 
         }
