@@ -72,7 +72,7 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
     @Override
     public String getMonth() {
-        return Integer.toString(Mymonth);
+        return Integer.toString(Mymonth+1);
     }
 
     @Override
@@ -83,27 +83,37 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
     @Override
     public int getType() {
-        switch (typetext.getText().toString()){
-            case "衣" :
-                return Account.CLOTH;
-            case "食" :
-                return Account.EAT;
-            case "行" :
-                return Account.GO;
-            case "学" :
-                return Account.STUDY;
-            case "玩" :
-                return Account.PLAY;
-            case "工资":
-                return Account.WAGES;
-            case "礼物":
-                return Account.GIFT;
-            case "理财":
-                return Account.FINANCIAL_MANAGEMENT;
-            case "其他":
-                return Account.ELSE;
+        switch (radioGroup.getCheckedRadioButtonId()){
+            case R.id.income:
+                switch (typetext.getText().toString()) {
+                    case "工资":
+                        return Account.WAGES;
+                    case "礼物":
+                        return Account.GIFT;
+                    case "理财":
+                        return Account.FINANCIAL_MANAGEMENT;
+                    case "其他":
+                        return Account.ELSE;
+                    default:
+                        return Account.ELSE;
+                }
+            case R.id.outcome:
+                switch (typetext.getText().toString()) {
+                    case "衣":
+                        return Account.CLOTH;
+                    case "食":
+                        return Account.EAT;
+                    case "行":
+                        return Account.GO;
+                    case "学":
+                        return Account.STUDY;
+                    case "玩":
+                        return Account.PLAY;
+                    default:
+                        return Account.CLOTH;
+                }
             default:
-                return Account.CLOTH;
+                return Account.ELSE;
         }
     }
 
@@ -145,18 +155,22 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     @Override
     public void setAll(Account account) {
         Myyear = Integer.parseInt(account.getYear());
-        Mymonth = Integer.parseInt(account.getMonth());
+        Mymonth = Integer.parseInt(account.getMonth()) - 1;
         Mydate = Integer.parseInt(account.getDay());
         moneytext.setText(Double.toString(account.getMoney()));
         timetext.setText(account.getYear()+" "+account.getMonth()+" "+account.getDay());
-        switch (account.getType()){
-            case Account.CLOTH: typetext.setText("衣");break;
-            case Account.EAT: typetext.setText("食");break;
-            case Account.GO: typetext.setText("行");break;
-            case Account.STUDY: typetext.setText("学");break;
-            case Account.PLAY: typetext.setText("玩");break;
-            default: typetext.setText("衣");break;
-        }
+        notetext.setText(account.getNote());
+        listener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                Myyear = year;
+                Mymonth = month ;
+                Mydate = dayOfMonth;
+                int j = Mymonth + 1;
+                timetext.setText(Myyear+" "+ j +" "+Mydate);
+            }
+        };
+        datePickerDialog = new DatePickerDialog(this , listener, Myyear ,Mymonth,Mydate);
         switch (account.getMood()){
             case Account.HAPPY:moodtext.setText("Happy");break;
             case Account.SAD:moodtext.setText("Sad");break;
@@ -166,10 +180,24 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
         }
         if (account.isSignal()){
             radioGroup.check(R.id.income);
+            switch (account.getType()){
+                case Account.WAGES: typetext.setText("工资");break;
+                case Account.GIFT: typetext.setText("礼物");break;
+                case Account.FINANCIAL_MANAGEMENT: typetext.setText("理财");break;
+                case Account.ELSE: typetext.setText("其他");break;
+                default: typetext.setText("其他");break;
+            }
         }else {
             radioGroup.check(R.id.outcome);
+            switch (account.getType()){
+                case Account.CLOTH: typetext.setText("衣");break;
+                case Account.EAT: typetext.setText("食");break;
+                case Account.GO: typetext.setText("行");break;
+                case Account.STUDY: typetext.setText("学");break;
+                case Account.PLAY: typetext.setText("玩");break;
+                default: typetext.setText("衣");break;
+            }
         }
-        notetext.setText(account.getNote());
     }
 
     @Override
@@ -275,16 +303,18 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     private void getCalendar(){//获取日历时间
         Calendar calendar = Calendar.getInstance();
         Myyear = calendar.get(calendar.YEAR);
-        Mymonth = calendar.get(calendar.MONTH)+1;
+        Mymonth = calendar.get(calendar.MONTH);
         Mydate = calendar.get(calendar.DAY_OF_MONTH);
-        timetext.setText(Myyear + " "+ Mymonth +" "+Mydate);
+        int i = Mymonth + 1;
+        timetext.setText(Myyear + " "+ i +" "+Mydate);
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Myyear = year;
-                Mymonth = month + 1 ;
+                Mymonth = month ;
                 Mydate = dayOfMonth;
-                timetext.setText(Myyear+" "+ Mymonth +" "+Mydate);
+                int j = Mymonth + 1;
+                timetext.setText(Myyear+" "+ j +" "+Mydate);
             }
         };
         datePickerDialog = new DatePickerDialog(this , listener, Myyear ,Mymonth,Mydate);
