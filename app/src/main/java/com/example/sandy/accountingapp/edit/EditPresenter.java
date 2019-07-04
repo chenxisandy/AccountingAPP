@@ -1,5 +1,9 @@
 package com.example.sandy.accountingapp.edit;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.support.v4.app.NotificationCompat;
+
 import com.example.sandy.accountingapp.model.Account;
 import com.example.sandy.accountingapp.model.LocalRepo;
 
@@ -35,11 +39,26 @@ public class EditPresenter implements EditContract.Presenter {
         account.setDay(day);
         account.setSignal(signal);
         repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).add(account);//添加到AccountList
+        isBeyondMax();
         View.DoFinish();//结束创建界面，返回List界面
     }
 
     public void createOldEdit(int accountIndex){
         int userIndex = repo.getCurrentIndexOfUser();//从repo获取当前用户的Index;
         View.setAll(repo.getAccountListByIndex(userIndex).get(accountIndex));
+    }
+
+    public void isBeyondMax(){
+        if (repo.getUserList().get(repo.getCurrentIndexOfUser()).isWarning()) {
+            if (repo.isBeyondDayMax()) {
+                View.sendDayNotification();
+            }
+            if (repo.isBeyondWeekMax()) {
+                View.sendWeekNotification();
+            }
+            if (repo.isBeyondMonthMax()) {
+                View.sendMonthNotification();
+            }
+        }
     }
 }

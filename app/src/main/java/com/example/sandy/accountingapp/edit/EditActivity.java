@@ -2,8 +2,12 @@ package com.example.sandy.accountingapp.edit;
 
 
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -45,7 +49,11 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
     @Override
     public double getMoney() {
-        return Double.parseDouble(moneytext.getText().toString());
+        if (moneytext.getText().toString().length() != 0) {
+            return Double.parseDouble(moneytext.getText().toString());
+        } else {
+            return 0;
+        }
     }
 
     @Override
@@ -68,17 +76,17 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     public int getType() {
         switch (typetext.getText().toString()){
             case "衣" :
-                return 0;
+                return Account.CLOTH;
             case "食" :
-                return 1;
+                return Account.EAT;
             case "行" :
-                return 2;
+                return Account.GO;
             case "学" :
-                return 3;
+                return Account.STUDY;
             case "玩" :
-                return 4;
+                return Account.PLAY;
             default:
-                return 10;
+                return Account.CLOTH;
         }
     }
 
@@ -86,15 +94,15 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     public int getMood() {
         switch (moodtext.getText().toString()){
             case "Happy" :
-                return 5;
+                return Account.HAPPY;
             case "Sad" :
-                return 6;
+                return Account.SAD;
             case "Excited" :
-                return 7;
+                return Account.EXITED;
             case "Other" :
-                return 8;
+                return Account.OTHER;
             default:
-                return 9;
+                return Account.HAPPY;
         }
     }
 
@@ -122,18 +130,18 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
         moneytext.setText(Double.toString(account.getMoney()));
         timetext.setText(account.getYear()+" "+account.getMonth()+" "+account.getDay());
         switch (account.getType()){
-            case 0: typetext.setText("衣");break;
-            case 1: typetext.setText("食");break;
-            case 2: typetext.setText("行");break;
-            case 3: typetext.setText("游");break;
-            case 4: typetext.setText("玩");break;
+            case Account.CLOTH: typetext.setText("衣");break;
+            case Account.EAT: typetext.setText("食");break;
+            case Account.GO: typetext.setText("行");break;
+            case Account.STUDY: typetext.setText("学");break;
+            case Account.PLAY: typetext.setText("玩");break;
             default: typetext.setText("衣");break;
         }
         switch (account.getMood()){
-            case 5:moodtext.setText("Happy");break;
-            case 6:moodtext.setText("Sad");break;
-            case 7:moodtext.setText("Excited");break;
-            case 8:moodtext.setText("Other");break;
+            case Account.HAPPY:moodtext.setText("Happy");break;
+            case Account.SAD:moodtext.setText("Sad");break;
+            case Account.EXITED:moodtext.setText("Excited");break;
+            case Account.OTHER:moodtext.setText("Other");break;
             default:moodtext.setText("Happy");break;
         }
         if (account.isSignal()){
@@ -142,6 +150,60 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
             radioGroup.check(R.id.outcome);
         }
         notetext.setText(account.getNote());
+    }
+
+    @Override
+    public void sendDayNotification() {
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            String channelId = "DayMax";
+            String chanelName = "日最大金额警告";
+            manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
+                    NotificationManager.IMPORTANCE_HIGH));
+        }
+        Notification notification = new Notification.Builder(this,"DayMax")
+                .setContentTitle("警告")
+                .setContentText("你的日消费金额已超过预定最大值，请理性消费")
+                .setAutoCancel(true)
+                .setWhen(System.currentTimeMillis())
+                .build();
+        manager.notify(1,notification);
+    }
+
+    @Override
+    public void sendWeekNotification() {
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            String channelId = "WeekMax";
+            String chanelName = "周最大金额警告";
+            manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
+                    NotificationManager.IMPORTANCE_HIGH));
+        }
+        Notification notification = new Notification.Builder(this,"WeekMax")
+                .setContentTitle("警告")
+                .setContentText("你的周消费金额已超过预定最大值，请理性消费")
+                .setAutoCancel(true)
+                .setWhen(System.currentTimeMillis())
+                .build();
+        manager.notify(1,notification);
+    }
+
+    @Override
+    public void sendMonthNotification() {
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            String channelId = "MonthMax";
+            String chanelName = "月最大金额警告";
+            manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
+                    NotificationManager.IMPORTANCE_HIGH));
+        }
+        Notification notification = new Notification.Builder(this,"MonthMax")
+                .setContentTitle("警告")
+                .setContentText("你的月消费金额已超过预定最大值，请理性消费")
+                .setAutoCancel(true)
+                .setWhen(System.currentTimeMillis())
+                .build();
+        manager.notify(1,notification);
     }
 
     @Override
@@ -217,5 +279,7 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     public void setMood(String mood) {
         moodtext.setText(mood);
     }
+
+
 }
 
