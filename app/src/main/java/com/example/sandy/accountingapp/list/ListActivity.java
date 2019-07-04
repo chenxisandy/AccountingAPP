@@ -12,8 +12,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -102,7 +100,6 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
 
     @Override
     public void onBackPressed() {
-        // TODO: 2019/7/1 直接结束我们的app，并且储存好数据
         if (System.currentTimeMillis() - PreBackTime < DOUBLE_CLICK_TIME_SUB){
                ActivityUtils.getInstance().removeAllActivity();
         }else {

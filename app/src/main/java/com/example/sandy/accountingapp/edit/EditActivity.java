@@ -94,6 +94,14 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
                 return Account.STUDY;
             case "玩" :
                 return Account.PLAY;
+            case "工资":
+                return Account.WAGES;
+            case "礼物":
+                return Account.GIFT;
+            case "理财":
+                return Account.FINANCIAL_MANAGEMENT;
+            case "其他":
+                return Account.ELSE;
             default:
                 return Account.CLOTH;
         }
