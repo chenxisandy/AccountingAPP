@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.sandy.accountingapp.R;
 import com.example.sandy.accountingapp.list.ListActivity;
 import com.example.sandy.accountingapp.model.LocalRepo;
+import com.example.sandy.accountingapp.util.ActivityUtils;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View , View.OnClickListener {
 
@@ -28,6 +29,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         password = findViewById(R.id.password);
         mpresenter = new LoginPresenter(this, LocalRepo.getInstance());
         signin.setOnClickListener(this);
+        ActivityUtils.getInstance().addActivity(this);
     }
 
     @Override

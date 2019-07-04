@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.example.sandy.accountingapp.edit.EditActivity;
 import com.example.sandy.accountingapp.model.Account;
 import com.example.sandy.accountingapp.model.LocalRepo;
 import com.example.sandy.accountingapp.setting.SettingActivity;
+import com.example.sandy.accountingapp.util.ActivityUtils;
 
 import java.util.List;
 
@@ -34,11 +36,16 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
 
     private AccountAdapter mAdapter;
 
+    private static final int DOUBLE_CLICK_TIME_SUB = 1000;
+
+    private long PreBackTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_layout);
         initView();
+        ActivityUtils.getInstance().addActivity(this);
     }
 
     private void initView() {
@@ -96,7 +103,12 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
     @Override
     public void onBackPressed() {
         // TODO: 2019/7/1 直接结束我们的app，并且储存好数据
-        finish();
+        if (System.currentTimeMillis() - PreBackTime < DOUBLE_CLICK_TIME_SUB){
+               ActivityUtils.getInstance().removeAllActivity();
+        }else {
+                Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_SHORT).show();
+                PreBackTime = System.currentTimeMillis();
+        }
     }
 
     @Override
@@ -137,4 +149,5 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
         //presenter.upDateList();
 
     }
+
 }

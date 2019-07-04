@@ -1,17 +1,20 @@
 package com.example.sandy.accountingapp.edit;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -22,6 +25,7 @@ import android.widget.RadioGroup;
 import com.example.sandy.accountingapp.R;
 import com.example.sandy.accountingapp.model.Account;
 import com.example.sandy.accountingapp.model.LocalRepo;
+import com.example.sandy.accountingapp.util.ActivityUtils;
 
 import java.util.Calendar;
 
@@ -232,10 +236,12 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
                 mpresenter.BackToList(isOldAccount);//创建账单并返回
                 break;
             case R.id.time_edit://选择时间
+                datePickerDialog.setCancelable(false);
                 datePickerDialog.show();
                 break;
             case R.id.mood_edit://选择心情
                 MoodDialog moodDialog = new MoodDialog(this);
+                moodDialog.setCancelable(false);
                 moodDialog.setMoodListener(this);
                 moodDialog.show();
                 break;
@@ -243,11 +249,13 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
                 switch (radioGroup.getCheckedRadioButtonId()){
                     case R.id.outcome:
                         TypeDialog typeDialog = new TypeDialog(this);
+                        typeDialog.setCancelable(false);
                         typeDialog.setTypeListener(this);
                         typeDialog.show();
                         break;
                     case R.id.income:
                         IncomeDialog incomeDialog = new IncomeDialog(this);
+                        incomeDialog.setCancelable(false);
                         incomeDialog.setIncomeListener(this);
                         incomeDialog.show();
                         break;
@@ -314,6 +322,30 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     @Override
     public void setIncomeType(String incomeType) {
         typetext.setText(incomeType);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+           AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+           dialog.setTitle("系统提示");
+           dialog.setMessage("账单未完成，确定要退出吗");
+           dialog.setCancelable(false);
+           dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+                   finish();
+               }
+           });
+           dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+                   dialog.dismiss();
+               }
+           });
+           dialog.show();
+        }
+        return false;
     }
 }
 
