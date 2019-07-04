@@ -29,6 +29,49 @@
 
         </com.github.mikephil.charting.charts.PieChart>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/blue"
+            android:text="历来消费数据统计"
+            android:textSize="30sp"
+            />
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart_month"
+                android:layout_width="wrap_content"
+                android:layout_height="320dp">
+
+            </com.github.mikephil.charting.charts.LineChart>
+
+        </HorizontalScrollView>
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart_week"
+                android:layout_width="wrap_content"
+                android:layout_height="320dp">
+
+            </com.github.mikephil.charting.charts.LineChart>
+        </HorizontalScrollView>
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart_day"
+                android:layout_width="wrap_content"
+                android:layout_height="320dp">
+
+            </com.github.mikephil.charting.charts.LineChart>
+        </HorizontalScrollView>
 
 
     </LinearLayout>
