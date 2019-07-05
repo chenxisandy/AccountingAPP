@@ -7,7 +7,9 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,8 +25,9 @@ import com.example.sandy.accountingapp.model.LocalRepo;
 
 import java.util.Calendar;
 
-public class EditActivity extends AppCompatActivity implements EditContract.View ,
-        View.OnClickListener ,DialogListener.typeListener ,DialogListener.moodListener{
+public class EditActivity extends AppCompatActivity implements EditContract.View , View.
+        OnClickListener ,DialogListener.typeListener ,DialogListener.moodListener,DialogListener.
+        incomeListener{
 
     private EditText moneytext;
     private EditText timetext;
@@ -37,6 +40,8 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     private DatePickerDialog datePickerDialog;
     private DatePickerDialog.OnDateSetListener listener;
     private RadioGroup radioGroup;
+    private boolean isOldAccount;
+    private int index;
 
 
 
@@ -127,6 +132,9 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
     @Override
     public void setAll(Account account) {
+        Myyear = Integer.parseInt(account.getYear());
+        Mymonth = Integer.parseInt(account.getMonth());
+        Mydate = Integer.parseInt(account.getDay());
         moneytext.setText(Double.toString(account.getMoney()));
         timetext.setText(account.getYear()+" "+account.getMonth()+" "+account.getDay());
         switch (account.getType()){
@@ -161,7 +169,9 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
             manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
                     NotificationManager.IMPORTANCE_HIGH));
         }
-        Notification notification = new Notification.Builder(this,"DayMax")
+        Notification notification = new NotificationCompat.Builder(this,"DayMax")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
                 .setContentTitle("警告")
                 .setContentText("你的日消费金额已超过预定最大值，请理性消费")
                 .setAutoCancel(true)
@@ -179,13 +189,15 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
             manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
                     NotificationManager.IMPORTANCE_HIGH));
         }
-        Notification notification = new Notification.Builder(this,"WeekMax")
+        Notification notification = new NotificationCompat.Builder(this,"WeekMax")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
                 .setContentTitle("警告")
                 .setContentText("你的周消费金额已超过预定最大值，请理性消费")
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
                 .build();
-        manager.notify(1,notification);
+        manager.notify(2,notification);
     }
 
     @Override
@@ -197,20 +209,27 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
             manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
                     NotificationManager.IMPORTANCE_HIGH));
         }
-        Notification notification = new Notification.Builder(this,"MonthMax")
+        Notification notification = new NotificationCompat.Builder(this,"MonthMax")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
                 .setContentTitle("警告")
                 .setContentText("你的月消费金额已超过预定最大值，请理性消费")
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
                 .build();
-        manager.notify(1,notification);
+        manager.notify(3,notification);
+    }
+
+    @Override
+    public int getIndex() {
+        return index;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.create:
-                mpresenter.BackToList();//创建账单并返回
+                mpresenter.BackToList(isOldAccount);//创建账单并返回
                 break;
             case R.id.time_edit://选择时间
                 datePickerDialog.show();
@@ -221,9 +240,18 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
                 moodDialog.show();
                 break;
             case R.id.type_edit://选择类型
-                TypeDialog typeDialog = new TypeDialog(this);
-                typeDialog.setTypeListener(this);
-                typeDialog.show();
+                switch (radioGroup.getCheckedRadioButtonId()){
+                    case R.id.outcome:
+                        TypeDialog typeDialog = new TypeDialog(this);
+                        typeDialog.setTypeListener(this);
+                        typeDialog.show();
+                        break;
+                    case R.id.income:
+                        IncomeDialog incomeDialog = new IncomeDialog(this);
+                        incomeDialog.setIncomeListener(this);
+                        incomeDialog.show();
+                        break;
+                }
                 break;
             }
         }
@@ -263,8 +291,10 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
         String type = intent.getStringExtra("type");
         if (type.equals("new")){
             getCalendar();
+            isOldAccount = false;
         }else {
-            int index = intent.getIntExtra("accountIndex",0);
+            index = intent.getIntExtra("accountIndex",0);
+            isOldAccount = true;
             mpresenter.createOldEdit(index);
         }
     }
@@ -281,5 +311,9 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     }
 
 
+    @Override
+    public void setIncomeType(String incomeType) {
+        typetext.setText(incomeType);
+    }
 }
 

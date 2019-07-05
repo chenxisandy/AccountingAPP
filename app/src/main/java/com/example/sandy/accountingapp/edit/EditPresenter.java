@@ -20,7 +20,7 @@ public class EditPresenter implements EditContract.Presenter {
     }
 
     @Override
-    public void BackToList() {
+    public void BackToList(boolean isOld) {
         Double money = View.getMoney();
         int type = View.getType();
         int mood = View.getMood();
@@ -29,18 +29,31 @@ public class EditPresenter implements EditContract.Presenter {
         String month = View.getMonth();
         String day = View.getDay();
         boolean signal = View.getSignal();
-        Account account = new Account();//创建新帐单
-        account.setMoney(money);
-        account.setNote(note);
-        account.setMood(mood);
-        account.setType(type);
-        account.setYear(year);
-        account.setMonth(month);
-        account.setDay(day);
-        account.setSignal(signal);
-        repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).add(account);//添加到AccountList
-        isBeyondMax();
-        View.DoFinish();//结束创建界面，返回List界面
+        if (!isOld) {
+            Account account = new Account();//创建新帐单
+            account.setMoney(money);
+            account.setNote(note);
+            account.setMood(mood);
+            account.setType(type);
+            account.setYear(year);
+            account.setMonth(month);
+            account.setDay(day);
+            account.setSignal(signal);
+            repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).add(account);//添加到AccountList
+            isBeyondMax();
+            View.DoFinish();//结束创建界面，返回List界面
+        }else {
+            repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setYear(year);
+            repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setMonth(month);
+            repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setDay(day);
+            repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setSignal(signal);
+            repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setMoney(money);
+            repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setType(type);
+            repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setNote(note);
+            repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setMood(mood);
+            isBeyondMax();
+            View.DoFinish();
+        }
     }
 
     public void createOldEdit(int accountIndex){

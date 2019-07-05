@@ -18,9 +18,10 @@ public interface EditContract {
         void sendDayNotification();
         void sendWeekNotification();
         void sendMonthNotification();
+        int getIndex();
     }
 
     interface Presenter{
-        void BackToList();
+        void BackToList(boolean isOld);
     }
 }
