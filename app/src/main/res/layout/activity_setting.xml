@@ -38,12 +38,12 @@
     <EditText
         android:id="@+id/day_max_edit"
         android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:background="@android:drawable/edit_text"
         android:layout_below="@id/max_warning"
         android:layout_toRightOf="@id/day_max"
         android:layout_marginLeft="60dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="110dp"
         android:visibility="invisible"
         android:inputType="numberDecimal"/>
 
@@ -62,12 +62,12 @@
     <EditText
         android:id="@+id/week_max_edit"
         android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:background="@android:drawable/edit_text"
         android:layout_below="@id/day_max_edit"
         android:layout_toRightOf="@id/week_max"
         android:layout_marginLeft="60dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="45dp"
         android:visibility="invisible"
         android:inputType="numberDecimal"/>
 
@@ -86,12 +86,12 @@
     <EditText
         android:id="@+id/month_max_edit"
         android:layout_width="80dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:background="@android:drawable/edit_text"
         android:layout_below="@id/week_max_edit"
         android:layout_toRightOf="@id/month_max"
         android:layout_marginLeft="60dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:visibility="invisible"
         android:inputType="numberDecimal"/>
 

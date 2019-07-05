@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.sandy.accountingapp.R;
 import com.example.sandy.accountingapp.model.Account;
@@ -269,7 +270,11 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.create:
-                mpresenter.BackToList(isOldAccount);//创建账单并返回
+                if (moneytext.getText().toString().length() == 0){
+                    Toast.makeText(this, "金额不可为空", Toast.LENGTH_SHORT).show();
+                }else {
+                    mpresenter.BackToList(isOldAccount);//创建账单并返回
+                }
                 break;
             case R.id.time_edit://选择时间
                 datePickerDialog.setCancelable(false);
@@ -367,7 +372,7 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
         if (keyCode == KeyEvent.KEYCODE_BACK){
            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
            dialog.setTitle("系统提示");
-           dialog.setMessage("账单未完成，确定要退出吗");
+           dialog.setMessage("账单未完成，确定要退出吗?若要保存草稿，请点取消后点击最下方按钮");
            dialog.setCancelable(false);
            dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                @Override
