@@ -1,27 +1,32 @@
 package com.example.sandy.accountingapp.edit;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.sandy.accountingapp.R;
 import com.example.sandy.accountingapp.model.Account;
 import com.example.sandy.accountingapp.model.LocalRepo;
+import com.example.sandy.accountingapp.util.ActivityUtils;
 
 import java.util.Calendar;
 
@@ -68,7 +73,7 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
     @Override
     public String getMonth() {
-        return Integer.toString(Mymonth);
+        return Integer.toString(Mymonth+1);
     }
 
     @Override
@@ -79,19 +84,37 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
     @Override
     public int getType() {
-        switch (typetext.getText().toString()){
-            case "衣" :
-                return Account.CLOTH;
-            case "食" :
-                return Account.EAT;
-            case "行" :
-                return Account.GO;
-            case "学" :
-                return Account.STUDY;
-            case "玩" :
-                return Account.PLAY;
+        switch (radioGroup.getCheckedRadioButtonId()){
+            case R.id.income:
+                switch (typetext.getText().toString()) {
+                    case "工资":
+                        return Account.WAGES;
+                    case "礼物":
+                        return Account.GIFT;
+                    case "理财":
+                        return Account.FINANCIAL_MANAGEMENT;
+                    case "其他":
+                        return Account.ELSE;
+                    default:
+                        return Account.ELSE;
+                }
+            case R.id.outcome:
+                switch (typetext.getText().toString()) {
+                    case "衣":
+                        return Account.CLOTH;
+                    case "食":
+                        return Account.EAT;
+                    case "行":
+                        return Account.GO;
+                    case "学":
+                        return Account.STUDY;
+                    case "玩":
+                        return Account.PLAY;
+                    default:
+                        return Account.CLOTH;
+                }
             default:
-                return Account.CLOTH;
+                return Account.ELSE;
         }
     }
 
@@ -133,18 +156,22 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     @Override
     public void setAll(Account account) {
         Myyear = Integer.parseInt(account.getYear());
-        Mymonth = Integer.parseInt(account.getMonth());
+        Mymonth = Integer.parseInt(account.getMonth()) - 1;
         Mydate = Integer.parseInt(account.getDay());
         moneytext.setText(Double.toString(account.getMoney()));
         timetext.setText(account.getYear()+" "+account.getMonth()+" "+account.getDay());
-        switch (account.getType()){
-            case Account.CLOTH: typetext.setText("衣");break;
-            case Account.EAT: typetext.setText("食");break;
-            case Account.GO: typetext.setText("行");break;
-            case Account.STUDY: typetext.setText("学");break;
-            case Account.PLAY: typetext.setText("玩");break;
-            default: typetext.setText("衣");break;
-        }
+        notetext.setText(account.getNote());
+        listener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                Myyear = year;
+                Mymonth = month ;
+                Mydate = dayOfMonth;
+                int j = Mymonth + 1;
+                timetext.setText(Myyear+" "+ j +" "+Mydate);
+            }
+        };
+        datePickerDialog = new DatePickerDialog(this , listener, Myyear ,Mymonth,Mydate);
         switch (account.getMood()){
             case Account.HAPPY:moodtext.setText("Happy");break;
             case Account.SAD:moodtext.setText("Sad");break;
@@ -154,10 +181,24 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
         }
         if (account.isSignal()){
             radioGroup.check(R.id.income);
+            switch (account.getType()){
+                case Account.WAGES: typetext.setText("工资");break;
+                case Account.GIFT: typetext.setText("礼物");break;
+                case Account.FINANCIAL_MANAGEMENT: typetext.setText("理财");break;
+                case Account.ELSE: typetext.setText("其他");break;
+                default: typetext.setText("其他");break;
+            }
         }else {
             radioGroup.check(R.id.outcome);
+            switch (account.getType()){
+                case Account.CLOTH: typetext.setText("衣");break;
+                case Account.EAT: typetext.setText("食");break;
+                case Account.GO: typetext.setText("行");break;
+                case Account.STUDY: typetext.setText("学");break;
+                case Account.PLAY: typetext.setText("玩");break;
+                default: typetext.setText("衣");break;
+            }
         }
-        notetext.setText(account.getNote());
     }
 
     @Override
@@ -229,13 +270,19 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.create:
-                mpresenter.BackToList(isOldAccount);//创建账单并返回
+                if (moneytext.getText().toString().length() == 0){
+                    Toast.makeText(this, "金额不可为空", Toast.LENGTH_SHORT).show();
+                }else {
+                    mpresenter.BackToList(isOldAccount);//创建账单并返回
+                }
                 break;
             case R.id.time_edit://选择时间
+                datePickerDialog.setCancelable(false);
                 datePickerDialog.show();
                 break;
             case R.id.mood_edit://选择心情
                 MoodDialog moodDialog = new MoodDialog(this);
+                moodDialog.setCancelable(false);
                 moodDialog.setMoodListener(this);
                 moodDialog.show();
                 break;
@@ -243,11 +290,13 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
                 switch (radioGroup.getCheckedRadioButtonId()){
                     case R.id.outcome:
                         TypeDialog typeDialog = new TypeDialog(this);
+                        typeDialog.setCancelable(false);
                         typeDialog.setTypeListener(this);
                         typeDialog.show();
                         break;
                     case R.id.income:
                         IncomeDialog incomeDialog = new IncomeDialog(this);
+                        incomeDialog.setCancelable(false);
                         incomeDialog.setIncomeListener(this);
                         incomeDialog.show();
                         break;
@@ -259,16 +308,18 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     private void getCalendar(){//获取日历时间
         Calendar calendar = Calendar.getInstance();
         Myyear = calendar.get(calendar.YEAR);
-        Mymonth = calendar.get(calendar.MONTH)+1;
+        Mymonth = calendar.get(calendar.MONTH);
         Mydate = calendar.get(calendar.DAY_OF_MONTH);
-        timetext.setText(Myyear + " "+ Mymonth +" "+Mydate);
+        int i = Mymonth + 1;
+        timetext.setText(Myyear + " "+ i +" "+Mydate);
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Myyear = year;
-                Mymonth = month + 1 ;
+                Mymonth = month ;
                 Mydate = dayOfMonth;
-                timetext.setText(Myyear+" "+ Mymonth +" "+Mydate);
+                int j = Mymonth + 1;
+                timetext.setText(Myyear+" "+ j +" "+Mydate);
             }
         };
         datePickerDialog = new DatePickerDialog(this , listener, Myyear ,Mymonth,Mydate);
@@ -314,6 +365,30 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     @Override
     public void setIncomeType(String incomeType) {
         typetext.setText(incomeType);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+           AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+           dialog.setTitle("系统提示");
+           dialog.setMessage("账单未完成，确定要退出吗?若要保存草稿，请点取消后点击最下方按钮");
+           dialog.setCancelable(false);
+           dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+                   finish();
+               }
+           });
+           dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+               @Override
+               public void onClick(DialogInterface dialog, int which) {
+                   dialog.dismiss();
+               }
+           });
+           dialog.show();
+        }
+        return false;
     }
 }
 
