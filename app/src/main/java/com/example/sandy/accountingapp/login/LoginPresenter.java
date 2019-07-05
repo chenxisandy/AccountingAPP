@@ -13,6 +13,7 @@ public class LoginPresenter implements LoginContract.Presenter {
     public LoginPresenter(LoginContract.View view, LocalRepo repo) {
         this.repo = repo;
         this.view = view;
+        repo.getUsers();
     }
 
     @Override

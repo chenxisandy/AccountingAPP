@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -101,7 +103,8 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
     @Override
     public void onBackPressed() {
         if (System.currentTimeMillis() - PreBackTime < DOUBLE_CLICK_TIME_SUB){
-               ActivityUtils.getInstance().removeAllActivity();
+            LocalRepo.getInstance().saveUsers();
+            ActivityUtils.getInstance().removeAllActivity();
         }else {
                 Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_SHORT).show();
                 PreBackTime = System.currentTimeMillis();

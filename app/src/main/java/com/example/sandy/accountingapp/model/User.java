@@ -1,9 +1,11 @@
 package com.example.sandy.accountingapp.model;
 
+import org.litepal.crud.LitePalSupport;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User extends LitePalSupport {
 
     private String name;
 
