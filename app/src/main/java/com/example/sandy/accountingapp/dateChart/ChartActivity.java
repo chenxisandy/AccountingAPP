@@ -77,6 +77,7 @@ public class ChartActivity extends AppCompatActivity implements ChartContract.Vi
                 description.setText("每月消费");
         }
         lineChart.setDescription(description);
+        lineChart.setData(lineData);
         Legend legend = lineChart.getLegend();
         legend.setForm(Legend.LegendForm.CIRCLE);   //字体
 
