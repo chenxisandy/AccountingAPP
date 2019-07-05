@@ -39,17 +39,12 @@
             android:textSize="30sp"
             />
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/line_chart_month"
-                android:layout_width="wrap_content"
-                android:layout_height="320dp">
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart_month"
+            android:layout_width="match_parent"
+            android:layout_height="400dp">
 
-            </com.github.mikephil.charting.charts.LineChart>
-
-        </HorizontalScrollView>
+        </com.github.mikephil.charting.charts.LineChart>
 
         <HorizontalScrollView
             android:layout_width="wrap_content"
@@ -57,7 +52,7 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/line_chart_week"
                 android:layout_width="wrap_content"
-                android:layout_height="320dp">
+                android:layout_height="wrap_content">
 
             </com.github.mikephil.charting.charts.LineChart>
         </HorizontalScrollView>
@@ -68,7 +63,7 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/line_chart_day"
                 android:layout_width="wrap_content"
-                android:layout_height="320dp">
+                android:layout_height="wrap_content">
 
             </com.github.mikephil.charting.charts.LineChart>
         </HorizontalScrollView>

@@ -17,7 +17,7 @@ public interface ChartContract {
 
     interface View {
         void showPieChart(PieChart pieChart, PieData pieData);
-        void shoeLineChart(LineChart lineChart, LineData lineData, int type);
+        void showLineChart(LineChart lineChart, LineData lineData, int type);
     }
 
     interface Presenter {

@@ -5,7 +5,7 @@ package com.example.sandy.accountingapp.model;
 //repo:
 
 
-public class Account {
+public class Account implements Comparable{
 
     //账单类型，衣，食，行，学，玩
     public static final int CLOTH = 0;
@@ -127,5 +127,22 @@ public class Account {
 
     public void setDay(String day) {
         this.day = day;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (Integer.parseInt(this.year) > Integer.parseInt(((Account)o).year)) {
+            return 1;
+        } else if (Integer.parseInt(this.year) < Integer.parseInt(((Account)o).year)) {
+            return -1;
+        } else {
+            if (Integer.parseInt(this.month) > Integer.parseInt(((Account)o).month)) {
+                return 1;
+            } else if (Integer.parseInt(this.month) < Integer.parseInt(((Account)o).month)) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
     }
 }

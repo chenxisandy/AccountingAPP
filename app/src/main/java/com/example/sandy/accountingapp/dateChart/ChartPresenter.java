@@ -30,9 +30,10 @@ public class ChartPresenter implements ChartContract.Presenter {
     }
 
     @Override
-    public void getLineData(LineChart lineChart) {
-
+    public void getLineData(LineChart lineChart, int type) {
+        view.showLineChart(lineChart, localRepo.getLineData(type, lineChart), type);
     }
+
 
 
 }

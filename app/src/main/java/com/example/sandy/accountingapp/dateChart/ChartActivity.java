@@ -35,6 +35,8 @@ public class ChartActivity extends AppCompatActivity implements ChartContract.Vi
         LineChart lineChartMonth = findViewById(R.id.line_chart_month);
         LineChart lineChartWeek = findViewById(R.id.line_chart_week);
         LineChart lineChartDay = findViewById(R.id.line_chart_day);
+
+        presenter.getLineData(lineChartMonth, ChartContract.MONTH);
     }
 
     @Override
@@ -50,7 +52,9 @@ public class ChartActivity extends AppCompatActivity implements ChartContract.Vi
         pieChart.setUsePercentValues(true);
         pieChart.setCenterText("占比");
         pieChart.setData(pieData);
-        pieChart.setEntryLabelTextSize(20);
+        pieChart.setUsePercentValues(true);
+//        pieChart.setEntryLabelTextSize(20);
+
         //设置比例图
         Legend legend = pieChart.getLegend();
         legend.setXEntrySpace(7f);
@@ -68,7 +72,7 @@ public class ChartActivity extends AppCompatActivity implements ChartContract.Vi
     }
 
     @Override
-    public void shoeLineChart(LineChart lineChart, LineData lineData, int type) {
+    public void showLineChart(LineChart lineChart, LineData lineData, int type) {
 
         Description description = new Description();
 
@@ -83,7 +87,7 @@ public class ChartActivity extends AppCompatActivity implements ChartContract.Vi
 
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
+//        xAxis.setDrawGridLines(false);
     }
 
 }

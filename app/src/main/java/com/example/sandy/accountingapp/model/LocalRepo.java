@@ -4,19 +4,31 @@ import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.view.Display;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import android.icu.util.Calendar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
+import static com.example.sandy.accountingapp.dateChart.ChartContract.DAY;
+import static com.example.sandy.accountingapp.dateChart.ChartContract.MONTH;
 
 public class LocalRepo {
 
@@ -197,35 +209,47 @@ public class LocalRepo {
         //userList.get(currentIndexOfUser).getAccountList();
         for (Account account :
                 userList.get(currentIndexOfUser).getAccountList()) {
-            switch (account.getType()) {
-                case Account.CLOTH:
-                    clothQuarter = (float) (account.getMoney()) + clothQuarter;
-                    break;
-                case Account.EAT:
-                    eatQuarter += (float) (account.getMoney());
-                    break;
-                case Account.GO:
-                    goQuarter += (float) (account.getMoney());
-                    break;
-                case Account.STUDY:
-                    studyQuarter += (float) (account.getMoney());
-                    break;
-                case Account.PLAY:
-                    playQuarter += (float) (account.getMoney());
-                    break;
+            if (account.isSignal() == Account.NEGATIVE) {
+                switch (account.getType()) {
+                    case Account.CLOTH:
+                        clothQuarter = (float) (account.getMoney()) + clothQuarter;
+                        break;
+                    case Account.EAT:
+                        eatQuarter += (float) (account.getMoney());
+                        break;
+                    case Account.GO:
+                        goQuarter += (float) (account.getMoney());
+                        break;
+                    case Account.STUDY:
+                        studyQuarter += (float) (account.getMoney());
+                        break;
+                    case Account.PLAY:
+                        playQuarter += (float) (account.getMoney());
+                        break;
+                }
             }
         }
+        if (clothQuarter > 0) {
+            values.add(new PieEntry(clothQuarter, "衣服"));
+        }
+        if (eatQuarter > 0) {
+            values.add(new PieEntry(eatQuarter, "食物"));
+        }
+        if (goQuarter > 0) {
+            values.add(new PieEntry(goQuarter, "出行"));
+        }
+        if (studyQuarter > 0) {
+            values.add(new PieEntry(studyQuarter, "学习"));
+        }
+        if (playQuarter > 0) {
+            values.add(new PieEntry(playQuarter, "娱乐"));
+        }
 
-        values.add(new PieEntry(clothQuarter, "衣服"));
-        values.add(new PieEntry(eatQuarter, "食物"));
-        values.add(new PieEntry(goQuarter, "出行"));
-        values.add(new PieEntry(studyQuarter, "学习"));
-        values.add(new PieEntry(playQuarter, "娱乐"));
 
         //y轴集合
         PieDataSet pieDataSet = new PieDataSet(values, "消费分类统计");
         pieDataSet.setSliceSpace(0f);   //设置饼状图地之间地距离
-        pieDataSet.setValueFormatter(new PercentFormatter());
+//        pieDataSet.setValueFormatter(new PercentFormatter());
         pieDataSet.setColors(Color.BLUE, Color.GREEN, Color.GRAY, Color.YELLOW, Color.DKGRAY);
 
         return new PieData(pieDataSet);
@@ -233,6 +257,92 @@ public class LocalRepo {
 
     }
 
-    
+    private String[] xData = new String[100];
+
+    public LineData getLineData(int type, LineChart lineChart) {
+        List<Entry> yEntries = new ArrayList<>();
+        List<Account> accounts = userList.get(currentIndexOfUser).getAccountList();
+        accounts.sort(new Comparator<Account>() {
+            @Override
+            public int compare(Account o1, Account o2) {
+                if (Integer.parseInt(o1.getYear()) > Integer.parseInt(o2.getYear())) {
+                    return 1;
+                } else if (Integer.parseInt(o1.getYear()) < Integer.parseInt(o2.getYear())) {
+                    return -1;
+                } else {
+                    if (Integer.parseInt(o1.getMonth()) > Integer.parseInt(o2.getMonth())) {
+                        return 1;
+                    } else if (Integer.parseInt(o1.getMonth()) < Integer.parseInt(o2.getMonth())) {
+                        return -1;
+                    } else {
+                        if (Integer.parseInt(o1.getDay()) > Integer.parseInt(o2.getDay())) {
+                            return 1;
+                        } else if (Integer.parseInt(o1.getDay()) < Integer.parseInt(o2.getDay())) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                }
+            }
+        });
+        float[] SumMoney = new float[100];
+        xData[0] = accounts.get(0).getYear() + "年" + accounts.get(0).getMonth() + "月";
+        int count = 0;
+        switch (type) {
+            case MONTH:
+                int minMonth = Integer.parseInt(accounts.get(0).getMonth());
+                Account minAccount = accounts.get(0);
+                for (Account account :
+                        accounts) {
+                    if (account.isSignal() == Account.NEGATIVE) {
+                        if (account.compareTo(minAccount) == 0) {
+                            SumMoney[count] += account.getMoney();
+                        } else if (account.compareTo(minAccount) > 0) {
+                            count++;
+                            SumMoney[count] += account.getMoney();
+                            minAccount = account;
+                            xData[count] = minAccount.getYear() + "年" + minAccount.getMonth() + "月";
+                        }
+                    }
+                }
+        }
+        for (int i = 0; i <= count; i++) {
+            yEntries.add(new Entry(i, SumMoney[i]));
+        }
+        //建立Y轴
+        LineDataSet lineDataSet = new LineDataSet(yEntries, "每月消费总额");
+        lineDataSet.setColor(Color.BLUE);
+        lineDataSet.setDrawValues(true);
+        lineDataSet.setCircleColor(Color.RED);
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setEnabled(true);
+        xAxis.setDrawAxisLine(true);
+        xAxis.setDrawGridLines(true);
+        xAxis.setDrawLabels(true);
+        xAxis.setLabelCount(count);
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                return xData[(int)value];
+            }
+        });
+//        xAxis.setValueFormatter(new IAxisValueFormatter() {
+//
+//            @Override
+//            public String getFormattedValue(float value, AxisBase axis) {
+//
+//            }
+//        });
+
+        LineData lineData = new LineData(lineDataSet);
+
+
+        // TODO: 2019/7/5 xData怎么办
+        return lineData;
+    }
+
+
 
 }

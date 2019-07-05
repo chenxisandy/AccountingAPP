@@ -2,6 +2,7 @@ package com.example.sandy.accountingapp.list;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -40,29 +41,47 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
         if (!account.isSignal()) {  //如果金额为负
             viewHolder.textMoney.setText("-" + account.getMoney() + "元");
+            viewHolder.textMoney.setTextColor(Color.RED);
+            switch (account.getType()) {
+                case Account.CLOTH:
+                    viewHolder.typeImg.setImageResource(R.drawable.cloth);
+                    break;
+                case Account.EAT:
+                    viewHolder.typeImg.setImageResource(R.drawable.eat);
+                    break;
+                case Account.GO:
+                    viewHolder.typeImg.setImageResource(R.drawable.go);
+                    break;
+                case Account.STUDY:
+                    viewHolder.typeImg.setImageResource(R.drawable.study);
+                    break;
+                case Account.PLAY:
+                    viewHolder.typeImg.setImageResource(R.drawable.play);
+                    break;
+            }
         } else {
-            viewHolder.textMoney.setText(account.getMoney() + "元");
+            viewHolder.textMoney.setText("+" + account.getMoney() + "元");
+            viewHolder.textMoney.setTextColor(Color.GREEN);
+            switch (account.getType()) {
+                case Account.WAGES:
+                    viewHolder.typeImg.setImageResource(R.drawable.wages);
+                    break;
+                case Account.GIFT:
+                    viewHolder.typeImg.setImageResource(R.drawable.gift);
+                    break;
+                case Account.FINANCIAL_MANAGEMENT:
+                    viewHolder.typeImg.setImageResource(R.drawable.management);
+                    break;
+                case Account.OTHER:
+                    viewHolder.typeImg.setImageResource(R.drawable.other);
+                    break;
+            }
         }
 
         viewHolder.textTime.setText(account.getYear() + "年" + account.getMonth() + "月" + account.getDay() + "日");
 
-        switch (account.getType()) {
-            case Account.CLOTH:
-                viewHolder.typeImg.setImageResource(R.drawable.cloth);
-                break;
-            case Account.EAT:
-                viewHolder.typeImg.setImageResource(R.drawable.eat);
-                break;
-            case Account.GO:
-                viewHolder.typeImg.setImageResource(R.drawable.go);
-                break;
-            case Account.STUDY:
-                viewHolder.typeImg.setImageResource(R.drawable.study);
-                break;
-            case Account.PLAY:
-                viewHolder.typeImg.setImageResource(R.drawable.play);
-                break;
-        }
+
+
 
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
