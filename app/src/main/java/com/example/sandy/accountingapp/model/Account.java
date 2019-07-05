@@ -34,7 +34,7 @@ public class Account {
 
 
     //private
-    private double money;   //钱
+    private double money;   //income
 
     private int type;       //类型
 

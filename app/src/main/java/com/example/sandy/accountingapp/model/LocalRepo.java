@@ -8,6 +8,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 
 import android.icu.util.Calendar;
 
@@ -178,14 +179,14 @@ public class LocalRepo {
 
     //chart table
     public PieData getPieData(float range) {
-        List<String> xValues = new ArrayList<>();   //存数据名称
-        xValues.add("衣服");
-        xValues.add("食物");
-        xValues.add("出行");
-        xValues.add("学习");
-        xValues.add("娱乐");
-
-        List<PieEntry> yValues = new ArrayList<>();    //存实际数据
+//        List<String> xValues = new ArrayList<>();   //存数据名称
+//        xValues.add("衣服");
+//        xValues.add("食物");
+//        xValues.add("出行");
+//        xValues.add("学习");
+//        xValues.add("娱乐");
+//
+        List<PieEntry> values = new ArrayList<>();    //存实际数据
 
         float clothQuarter = 0;
         float eatQuarter = 0;
@@ -215,20 +216,20 @@ public class LocalRepo {
             }
         }
 
-        yValues.add(new PieEntry(clothQuarter, 0));
-        yValues.add(new PieEntry(eatQuarter, 1));
-        yValues.add(new PieEntry(goQuarter, 2));
-        yValues.add(new PieEntry(studyQuarter, 3));
-        yValues.add(new PieEntry(playQuarter, 4));
+        values.add(new PieEntry(clothQuarter, "衣服"));
+        values.add(new PieEntry(eatQuarter, "食物"));
+        values.add(new PieEntry(goQuarter, "出行"));
+        values.add(new PieEntry(studyQuarter, "学习"));
+        values.add(new PieEntry(playQuarter, "娱乐"));
 
         //y轴集合
-        PieDataSet pieDataSet = new PieDataSet(yValues, "消费分类统计");
+        PieDataSet pieDataSet = new PieDataSet(values, "消费分类统计");
         pieDataSet.setSliceSpace(0f);   //设置饼状图地之间地距离
-
+        pieDataSet.setValueFormatter(new PercentFormatter());
         pieDataSet.setColors(Color.BLUE, Color.GREEN, Color.GRAY, Color.YELLOW, Color.DKGRAY);
 
-
         return new PieData(pieDataSet);
+
 
     }
 
