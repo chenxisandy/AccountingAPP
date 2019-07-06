@@ -38,6 +38,15 @@
             android:text="历来消费数据统计"
             android:textSize="30sp"
             />
+        <TextView
+            android:id="@+id/one_month_remind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="月份太少，数据不足,所以没有趋势折线图"
+            android:textSize="20sp"
+            android:visibility="gone"
+            />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart_month"
@@ -46,27 +55,7 @@
 
         </com.github.mikephil.charting.charts.LineChart>
 
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/line_chart_week"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
 
-            </com.github.mikephil.charting.charts.LineChart>
-        </HorizontalScrollView>
-
-        <HorizontalScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/line_chart_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </com.github.mikephil.charting.charts.LineChart>
-        </HorizontalScrollView>
 
 
     </LinearLayout>

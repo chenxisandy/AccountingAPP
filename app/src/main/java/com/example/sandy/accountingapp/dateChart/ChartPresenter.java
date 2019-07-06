@@ -31,7 +31,11 @@ public class ChartPresenter implements ChartContract.Presenter {
 
     @Override
     public void getLineData(LineChart lineChart, int type) {
-        view.showLineChart(lineChart, localRepo.getLineData(type, lineChart), type);
+        if (localRepo.getLineData(type, lineChart) == null) {
+            view.showNoLineChart(lineChart);
+        } else {
+            view.showLineChart(lineChart, localRepo.getLineData(type, lineChart), type);
+        }
     }
 
 

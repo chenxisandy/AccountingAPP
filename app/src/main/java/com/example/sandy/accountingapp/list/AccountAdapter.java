@@ -72,7 +72,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                 case Account.FINANCIAL_MANAGEMENT:
                     viewHolder.typeImg.setImageResource(R.drawable.management);
                     break;
-                case Account.OTHER:
+                case Account.ELSE:
                     viewHolder.typeImg.setImageResource(R.drawable.other);
                     break;
             }

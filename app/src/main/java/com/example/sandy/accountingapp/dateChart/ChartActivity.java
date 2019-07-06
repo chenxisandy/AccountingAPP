@@ -2,6 +2,8 @@ package com.example.sandy.accountingapp.dateChart;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.sandy.accountingapp.R;
 import com.example.sandy.accountingapp.model.LocalRepo;
@@ -14,6 +16,8 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.PieData;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +37,7 @@ public class ChartActivity extends AppCompatActivity implements ChartContract.Vi
         presenter.getPieData(pieChart, getResources());
 
         LineChart lineChartMonth = findViewById(R.id.line_chart_month);
-        LineChart lineChartWeek = findViewById(R.id.line_chart_week);
-        LineChart lineChartDay = findViewById(R.id.line_chart_day);
+
 
         presenter.getLineData(lineChartMonth, ChartContract.MONTH);
     }
@@ -88,6 +91,13 @@ public class ChartActivity extends AppCompatActivity implements ChartContract.Vi
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 //        xAxis.setDrawGridLines(false);
+    }
+
+    @Override
+    public void showNoLineChart(LineChart lineChart) {
+        TextView textView = findViewById(R.id.one_month_remind);
+        textView.setVisibility(View.VISIBLE);
+        lineChart.setVisibility(View.GONE);
     }
 
 }

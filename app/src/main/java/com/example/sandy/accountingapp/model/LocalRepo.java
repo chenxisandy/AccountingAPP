@@ -287,28 +287,46 @@ public class LocalRepo {
             }
         });
         float[] SumMoney = new float[100];
-        xData[0] = accounts.get(0).getYear() + "年" + accounts.get(0).getMonth() + "月";
-        int count = 0;
-        switch (type) {
-            case MONTH:
-                int minMonth = Integer.parseInt(accounts.get(0).getMonth());
-                Account minAccount = accounts.get(0);
-                for (Account account :
-                        accounts) {
-                    if (account.isSignal() == Account.NEGATIVE) {
-                        if (account.compareTo(minAccount) == 0) {
-                            SumMoney[count] += account.getMoney();
-                        } else if (account.compareTo(minAccount) > 0) {
-                            count++;
-                            SumMoney[count] += account.getMoney();
-                            minAccount = account;
-                            xData[count] = minAccount.getYear() + "年" + minAccount.getMonth() + "月";
+        if (accounts.size() > 0) {
+            xData[0] = accounts.get(0).getYear() + "年" + accounts.get(0).getMonth() + "月";
+            int count = 0;
+            switch (type) {
+                case MONTH:
+                    Account minAccount = accounts.get(0);
+                    for (Account account :
+                            accounts) {
+                        if (account.isSignal() == Account.NEGATIVE) {
+                            if (account.compareTo(minAccount) == 0) {
+                                SumMoney[count] += account.getMoney();
+                            } else if (account.compareTo(minAccount) > 0) {
+                                count++;
+                                SumMoney[count] += account.getMoney();
+                                minAccount = account;
+                                xData[count] = minAccount.getYear() + "年" + minAccount.getMonth() + "月";
+                            }
                         }
                     }
+            }
+            for (int i = 0; i <= count; i++) {
+                yEntries.add(new Entry(i, SumMoney[i]));
+            }
+            XAxis xAxis = lineChart.getXAxis();
+            xAxis.setEnabled(true);
+            xAxis.setDrawAxisLine(true);
+            xAxis.setDrawGridLines(true);
+            xAxis.setDrawLabels(true);
+            xAxis.setLabelCount(count);
+            if (count == 0) {
+                return null;
+            }
+            xAxis.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    return xData[(int)value];
                 }
-        }
-        for (int i = 0; i <= count; i++) {
-            yEntries.add(new Entry(i, SumMoney[i]));
+            });
+        } else {
+            return null;
         }
         //建立Y轴
         LineDataSet lineDataSet = new LineDataSet(yEntries, "每月消费总额");
@@ -316,18 +334,7 @@ public class LocalRepo {
         lineDataSet.setDrawValues(true);
         lineDataSet.setCircleColor(Color.RED);
 
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setEnabled(true);
-        xAxis.setDrawAxisLine(true);
-        xAxis.setDrawGridLines(true);
-        xAxis.setDrawLabels(true);
-        xAxis.setLabelCount(count);
-        xAxis.setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getFormattedValue(float value) {
-                return xData[(int)value];
-            }
-        });
+
 //        xAxis.setValueFormatter(new IAxisValueFormatter() {
 //
 //            @Override
