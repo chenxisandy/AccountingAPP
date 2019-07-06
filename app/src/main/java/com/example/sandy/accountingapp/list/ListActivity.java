@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v13.view.DragStartHelper;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -37,6 +39,8 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
     private static final int DOUBLE_CLICK_TIME_SUB = 1000;
 
     private long PreBackTime;
+
+    private ItemTouchHelper itemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +71,6 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
                 presenter.toEdit();
             }
         });
-
     }
 
     @Override
@@ -77,6 +80,12 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new AccountAdapter(list);
         recyclerView.setAdapter(mAdapter);
+
+        ItemTouchHelperCallback touchHelperCallback = new ItemTouchHelperCallback();
+        touchHelperCallback.setOnItemTouchListener(mAdapter);   //设好listener
+//        mAdapter.setOnItemTouchListener(mAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback); //设好callback
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
@@ -113,7 +122,7 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
         switch (menuItem.getItemId()) {
             case R.id.user_quit:
                 Toast.makeText(this, "退出登录成功", Toast.LENGTH_SHORT).show();
-                finish();
+                ActivityUtils.getInstance().finishList();
                 break;
             case R.id.data_table:
                 Toast.makeText(this, "进入数据统计界面", Toast.LENGTH_SHORT).show();

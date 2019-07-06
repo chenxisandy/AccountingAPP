@@ -1,8 +1,12 @@
 package com.example.sandy.accountingapp.list;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -15,15 +19,20 @@ import android.widget.TextView;
 import com.example.sandy.accountingapp.R;
 import com.example.sandy.accountingapp.edit.EditActivity;
 import com.example.sandy.accountingapp.model.Account;
+import com.example.sandy.accountingapp.model.LocalRepo;
 
 import java.util.List;
 
 
-public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder>{
+public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> implements ItemTouchHelperCallback.OnItemTouchListener{
 
     private List<Account> accountList;
 
     private Context mContext;
+
+    public static final int QUIT_DELETE = 1;
+
+
 
     @NonNull
     @Override
@@ -99,6 +108,31 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         return accountList.size();
     }
 
+    @Override
+    public void onSwiped(final int position) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+        dialog.setTitle("确认删除")
+                .setMessage("是否要删除这个账单？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        accountList.remove(position);
+//        LocalRepo.getInstance().getUserList().get(LocalRepo.getInstance().getCurrentIndexOfUser()).getAccountList().remove(position);
+                        notifyItemRemoved(position);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(mContext, ListActivity.class);
+                        intent.putExtra("userIndex", LocalRepo.getInstance().getCurrentIndexOfUser());
+                        mContext.startActivity(intent);
+                    }
+                })
+                .show();
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder{
 
         CardView cardView;
@@ -121,4 +155,6 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     public AccountAdapter(List<Account> accountList) {
         this.accountList = accountList;
     }
+
+
 }

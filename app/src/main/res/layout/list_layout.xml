@@ -11,6 +11,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bg_drawer"
         >
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -38,6 +39,7 @@
             android:layout_margin="12dp"
             android:src="@drawable/ic_add_white_24dp"
             android:backgroundTint="@color/blue"
+            app:layout_behavior=".util.FabBehavior"
             app:fabSize="normal"
             />
 
@@ -45,8 +47,7 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         </android.support.v7.widget.RecyclerView>
 

@@ -7,20 +7,16 @@ import android.widget.TextView;
 
 import com.example.sandy.accountingapp.R;
 import com.example.sandy.accountingapp.model.LocalRepo;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.PieData;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChartActivity extends AppCompatActivity implements ChartContract.View {
 
@@ -37,9 +33,9 @@ public class ChartActivity extends AppCompatActivity implements ChartContract.Vi
         presenter.getPieData(pieChart, getResources());
 
         LineChart lineChartMonth = findViewById(R.id.line_chart_month);
+        BarChart barChart = findViewById(R.id.chart_bar);
 
-
-        presenter.getLineData(lineChartMonth, ChartContract.MONTH);
+        presenter.getChartData(lineChartMonth, barChart, ChartContract.MONTH);
     }
 
     @Override
@@ -90,14 +86,43 @@ public class ChartActivity extends AppCompatActivity implements ChartContract.Vi
 
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        YAxis yRAxis = lineChart.getAxisRight();
+        yRAxis.setEnabled(false);
+
+        YAxis yLAxis = lineChart.getAxisLeft();
+        yLAxis.setDrawGridLines(false);
+        yLAxis.setAxisMinimum(0f);
 //        xAxis.setDrawGridLines(false);
     }
 
     @Override
-    public void showNoLineChart(LineChart lineChart) {
+    public void showNoChart(LineChart lineChart, BarChart barChart) {
         TextView textView = findViewById(R.id.one_month_remind);
         textView.setVisibility(View.VISIBLE);
         lineChart.setVisibility(View.GONE);
+        barChart.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showBarChart(BarChart barChart, BarData barData) {
+        Description description = new Description();
+        description.setText("每月消费金额");
+        barChart.setDescription(description);
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setAxisLineWidth(4f);
+
+
+        YAxis yRAxis = barChart.getAxisRight();
+        yRAxis.setEnabled(false);
+
+        YAxis yLAxis = barChart.getAxisLeft();
+        yLAxis.setDrawGridLines(false);
+        yLAxis.setAxisMinimum(0f);
+
+        barChart.setData(barData);
     }
 
 }

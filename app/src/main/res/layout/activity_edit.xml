@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_edit">
 
     <RadioGroup
@@ -17,7 +17,8 @@
             android:layout_height="60dp"
             android:text="收入"
             android:textSize="30sp"
-            android:layout_marginLeft="40dp" />
+            android:layout_marginLeft="40dp"
+            />
 
         <RadioButton
             android:id="@+id/outcome"
@@ -140,14 +141,25 @@
         android:background="@android:drawable/edit_text"
         android:gravity="top"/>
 
-    <Button
-        android:id="@+id/create"
+    <android.support.v7.widget.CardView
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_below="@+id/note_edit"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:text="Create"
-        android:background="@color/colorAccent"/>
+        app:cardCornerRadius="8dp"
+        >
+        <Button
+            android:id="@+id/create"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="保    存"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:background="@color/blue"/>
+
+    </android.support.v7.widget.CardView>
+
+
 
 </RelativeLayout>

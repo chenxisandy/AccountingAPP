@@ -55,6 +55,13 @@
 
         </com.github.mikephil.charting.charts.LineChart>
 
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/chart_bar"
+            android:layout_width="match_parent"
+            android:layout_height="400dp">
+
+        </com.github.mikephil.charting.charts.BarChart>
+
 
 
 
