@@ -1,8 +1,10 @@
 package com.example.sandy.accountingapp.login;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +14,8 @@ import com.example.sandy.accountingapp.R;
 import com.example.sandy.accountingapp.list.ListActivity;
 import com.example.sandy.accountingapp.model.LocalRepo;
 import com.example.sandy.accountingapp.util.ActivityUtils;
+
+import org.litepal.LitePal;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View , View.OnClickListener {
 
@@ -27,6 +31,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         signin = findViewById(R.id.Sign_in_or_register);
         account = findViewById(R.id.account);
         password = findViewById(R.id.password);
+        SQLiteDatabase db = LitePal.getDatabase();
         mpresenter = new LoginPresenter(this, LocalRepo.getInstance());
         signin.setOnClickListener(this);
         ActivityUtils.getInstance().addActivity(this);
@@ -72,4 +77,5 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 break;
         }
     }
+
 }

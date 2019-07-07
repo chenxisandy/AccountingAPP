@@ -14,6 +14,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -39,8 +41,6 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
     private static final int DOUBLE_CLICK_TIME_SUB = 1000;
 
     private long PreBackTime;
-
-    private ItemTouchHelper itemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +71,7 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
                 presenter.toEdit();
             }
         });
+
     }
 
     @Override
@@ -122,7 +123,7 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
         switch (menuItem.getItemId()) {
             case R.id.user_quit:
                 Toast.makeText(this, "退出登录成功", Toast.LENGTH_SHORT).show();
-                ActivityUtils.getInstance().finishList();
+                finish();
                 break;
             case R.id.data_table:
                 Toast.makeText(this, "进入数据统计界面", Toast.LENGTH_SHORT).show();

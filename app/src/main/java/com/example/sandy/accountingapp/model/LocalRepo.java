@@ -2,6 +2,7 @@ package com.example.sandy.accountingapp.model;
 
 import android.graphics.Color;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -23,6 +24,8 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import android.icu.util.Calendar;
+
+import org.litepal.LitePal;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -178,6 +181,7 @@ public class LocalRepo {
         List<Account> list = new ArrayList<>(); //必须创建一个list以免为空
         user.setAccountList(list);
         userList.add(user);
+        user.save();
     }
 
     //list
@@ -421,10 +425,20 @@ public class LocalRepo {
             return null;
         }
 
+
         BarDataSet barDataSet = new BarDataSet(yEntries, "每月消费总额");
         barDataSet.setDrawValues(true);
 
         return new BarData(barDataSet);
+    }
+    public void saveUsers(){
+        LitePal.deleteAll(User.class);
+        LitePal.saveAll(userList);
+    }
+
+    public void getUsers(){
+        List<User> users = LitePal.findAll(User.class);
+        userList.addAll(users);
     }
 
 }

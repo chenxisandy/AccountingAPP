@@ -5,7 +5,9 @@ package com.example.sandy.accountingapp.model;
 //repo:
 
 
-public class Account implements Comparable{
+import org.litepal.crud.LitePalSupport;
+
+public class Account extends LitePalSupport implements Comparable{
 
     //账单类型，衣，食，行，学，玩
     public static final int CLOTH = 0;
