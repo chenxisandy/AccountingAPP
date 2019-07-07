@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v13.view.DragStartHelper;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -81,6 +83,12 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new AccountAdapter(list);
         recyclerView.setAdapter(mAdapter);
+
+        ItemTouchHelperCallback touchHelperCallback = new ItemTouchHelperCallback();
+        touchHelperCallback.setOnItemTouchListener(mAdapter);   //设好listener
+//        mAdapter.setOnItemTouchListener(mAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback); //设好callback
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
@@ -105,8 +113,7 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
     @Override
     public void onBackPressed() {
         if (System.currentTimeMillis() - PreBackTime < DOUBLE_CLICK_TIME_SUB){
-            LocalRepo.getInstance().saveUsers();
-            ActivityUtils.getInstance().removeAllActivity();
+               ActivityUtils.getInstance().removeAllActivity();
         }else {
                 Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_SHORT).show();
                 PreBackTime = System.currentTimeMillis();

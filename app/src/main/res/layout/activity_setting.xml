@@ -19,6 +19,7 @@
         android:id="@+id/max_warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:shadowColor="@color/blue"
         android:layout_toRightOf="@id/set"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="70dp" />

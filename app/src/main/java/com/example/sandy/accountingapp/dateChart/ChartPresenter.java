@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 import com.example.sandy.accountingapp.model.LocalRepo;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -30,11 +31,12 @@ public class ChartPresenter implements ChartContract.Presenter {
     }
 
     @Override
-    public void getLineData(LineChart lineChart, int type) {
+    public void getChartData(LineChart lineChart, BarChart barChart, int type) {
         if (localRepo.getLineData(type, lineChart) == null) {
-            view.showNoLineChart(lineChart);
+            view.showNoChart(lineChart, barChart);
         } else {
             view.showLineChart(lineChart, localRepo.getLineData(type, lineChart), type);
+            view.showBarChart(barChart, localRepo.getBarData(barChart));
         }
     }
 

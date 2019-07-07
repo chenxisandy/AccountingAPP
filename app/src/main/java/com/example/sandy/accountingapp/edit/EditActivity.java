@@ -371,7 +371,7 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK){
            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-           dialog.setTitle("系统提示");
+           dialog.setTitle("退出提示");
            dialog.setMessage("账单未完成，确定要退出吗?若要保存草稿，请点取消后点击最下方按钮");
            dialog.setCancelable(false);
            dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {

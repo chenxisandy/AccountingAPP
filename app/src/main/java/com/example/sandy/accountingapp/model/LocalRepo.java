@@ -5,9 +5,13 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -355,6 +359,79 @@ public class LocalRepo {
         return lineData;
     }
 
+    public BarData getBarData(BarChart barChart) {
+        List<BarEntry> yEntries = new ArrayList<>();
+        List<Account> accounts = userList.get(currentIndexOfUser).getAccountList();
+        accounts.sort(new Comparator<Account>() {
+            @Override
+            public int compare(Account o1, Account o2) {
+                if (Integer.parseInt(o1.getYear()) > Integer.parseInt(o2.getYear())) {
+                    return 1;
+                } else if (Integer.parseInt(o1.getYear()) < Integer.parseInt(o2.getYear())) {
+                    return -1;
+                } else {
+                    if (Integer.parseInt(o1.getMonth()) > Integer.parseInt(o2.getMonth())) {
+                        return 1;
+                    } else if (Integer.parseInt(o1.getMonth()) < Integer.parseInt(o2.getMonth())) {
+                        return -1;
+                    } else {
+                        if (Integer.parseInt(o1.getDay()) > Integer.parseInt(o2.getDay())) {
+                            return 1;
+                        } else if (Integer.parseInt(o1.getDay()) < Integer.parseInt(o2.getDay())) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    }
+                }
+            }
+        });
+        float[] SumMoney = new float[100];
+        if (accounts.size() > 0) {
+            xData[0] = accounts.get(0).getYear() + "年" + accounts.get(0).getMonth() + "月";
+            int count = 0;
+            Account minAccount = accounts.get(0);
+            for (Account account :
+                    accounts) {
+                if (account.isSignal() == Account.NEGATIVE) {
+                    if (account.compareTo(minAccount) == 0) {
+                        SumMoney[count] += account.getMoney();
+                    } else if (account.compareTo(minAccount) > 0) {
+                        count++;
+                        SumMoney[count] += account.getMoney();
+                        minAccount = account;
+                        xData[count] = minAccount.getYear() + "年" + minAccount.getMonth() + "月";
+                    }
+                }
+            }
+            for (int i = 0; i <= count; i++) {
+                yEntries.add(new BarEntry(i, SumMoney[i]));
+            }
+            XAxis xAxis = barChart.getXAxis();
+            xAxis.setEnabled(true);
+            xAxis.setDrawAxisLine(true);
+            xAxis.setDrawGridLines(true);
+            xAxis.setDrawLabels(true);
+            xAxis.setLabelCount(count);
+            if (count == 0) {
+                return null;
+            }
+            xAxis.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    return xData[(int)value];
+                }
+            });
+        } else {
+            return null;
+        }
+
+
+        BarDataSet barDataSet = new BarDataSet(yEntries, "每月消费总额");
+        barDataSet.setDrawValues(true);
+
+        return new BarData(barDataSet);
+    }
     public void saveUsers(){
         LitePal.deleteAll(User.class);
         LitePal.saveAll(userList);
@@ -364,9 +441,5 @@ public class LocalRepo {
         List<User> users = LitePal.findAll(User.class);
         userList.addAll(users);
     }
-
-
-
-
 
 }
