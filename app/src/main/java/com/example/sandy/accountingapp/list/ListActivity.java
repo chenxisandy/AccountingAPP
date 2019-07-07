@@ -1,5 +1,6 @@
 package com.example.sandy.accountingapp.list;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -43,6 +44,9 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
     private static final int DOUBLE_CLICK_TIME_SUB = 1000;
 
     private long PreBackTime;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,11 +162,11 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
         //presenter.upDateList();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        ActivityManager activityManager = (ActivityManager)getApplicationContext().
-                getSystemService(Context.ACTIVITY_SERVICE);
-        activityManager.moveTaskToFront(getTaskId(),0);
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        ActivityManager activityManager = (ActivityManager)getApplicationContext().
+//                getSystemService(Context.ACTIVITY_SERVICE);
+//        activityManager.moveTaskToFront(getTaskId(),0);
+//    }
 }

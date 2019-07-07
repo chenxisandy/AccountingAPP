@@ -182,7 +182,7 @@ public class LocalRepo {
         List<Account> list = new ArrayList<>(); //必须创建一个list以免为空
         user.setAccountList(list);
         userList.add(user);
-        user.save();
+//        user.save();
     }
 
     //list
@@ -432,13 +432,17 @@ public class LocalRepo {
 
         return new BarData(barDataSet);
     }
-    public void saveUsers(){
-        LitePal.deleteAll(User.class);
-        LitePal.saveAll(userList);
+    public void saveUser(){
+        User user = userList.get(currentIndexOfUser);
+        for (Account account : user.getAccountList()){
+            account.setUser(user);
+        }
+        LitePal.saveAll(user.getAccountList());
+        user.save();
     }
 
     public void getUsers(){
-        List<User> users = LitePal.findAll(User.class);
+        List<User> users = LitePal.findAll(User.class,true);
         userList.addAll(users);
     }
 

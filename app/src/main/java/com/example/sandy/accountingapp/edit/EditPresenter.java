@@ -41,6 +41,7 @@ public class EditPresenter implements EditContract.Presenter {
             account.setSignal(signal);
             repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).add(account);//添加到AccountList
             isBeyondMax();
+            repo.saveUser();
             View.DoFinish();//结束创建界面，返回List界面
         }else {//更改老账单
             repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setYear(year);
@@ -52,6 +53,7 @@ public class EditPresenter implements EditContract.Presenter {
             repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setNote(note);
             repo.getAccountListByIndex(repo.getCurrentIndexOfUser()).get(View.getIndex()).setMood(mood);
             isBeyondMax();
+            repo.saveUser();
             View.DoFinish();
         }
     }
