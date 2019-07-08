@@ -159,7 +159,7 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
     protected void onRestart() {
         super.onRestart();
         mAdapter.notifyDataSetChanged();
-        //presenter.upDateList();
+        presenter.upDateList();
     }
 
 //    @Override
