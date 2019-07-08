@@ -6,7 +6,6 @@ import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -26,28 +25,26 @@ import android.widget.Toast;
 import com.example.sandy.accountingapp.R;
 import com.example.sandy.accountingapp.model.Account;
 import com.example.sandy.accountingapp.model.LocalRepo;
-import com.example.sandy.accountingapp.util.ActivityUtils;
 
 import java.util.Calendar;
 
-public class EditActivity extends AppCompatActivity implements EditContract.View , View.
-        OnClickListener ,DialogListener.typeListener ,DialogListener.moodListener,DialogListener.
-        incomeListener{
+public class EditActivity extends AppCompatActivity implements EditContract.View, View.
+        OnClickListener, DialogListener.typeListener, DialogListener.moodListener, DialogListener.
+        incomeListener {
 
-    private EditText moneytext;
-    private EditText timetext;
-    private EditText typetext;
-    private EditText moodtext;
-    private EditText notetext;
+    private EditText moneyText;
+    private EditText timeText;
+    private EditText typeText;
+    private EditText moodText;
+    private EditText noteText;
     private Button create;
-    private EditPresenter mpresenter;
-    private int Myyear,Mymonth,Mydate;
+    private EditPresenter mPresenter;
+    private int MyYear, MyMonth, MyDate;
     private DatePickerDialog datePickerDialog;
     private DatePickerDialog.OnDateSetListener listener;
     private RadioGroup radioGroup;
     private boolean isOldAccount;
     private int index;
-
 
 
     @Override
@@ -59,8 +56,8 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
     @Override
     public double getMoney() {
-        if (moneytext.getText().toString().length() != 0) {
-            return Double.parseDouble(moneytext.getText().toString());
+        if (moneyText.getText().toString().length() != 0) {
+            return Double.parseDouble(moneyText.getText().toString());
         } else {
             return 0;
         }
@@ -68,25 +65,25 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
     @Override
     public String getYear() {
-        return Integer.toString(Myyear);
+        return Integer.toString(MyYear);
     }
 
     @Override
     public String getMonth() {
-        return Integer.toString(Mymonth+1);
+        return Integer.toString(MyMonth + 1);
     }
 
     @Override
     public String getDay() {
-        return Integer.toString(Mydate);
+        return Integer.toString(MyDate);
     }
 
 
     @Override
     public int getType() {
-        switch (radioGroup.getCheckedRadioButtonId()){
+        switch (radioGroup.getCheckedRadioButtonId()) {
             case R.id.income:
-                switch (typetext.getText().toString()) {
+                switch (typeText.getText().toString()) {
                     case "工资":
                         return Account.WAGES;
                     case "礼物":
@@ -99,7 +96,7 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
                         return Account.ELSE;
                 }
             case R.id.outcome:
-                switch (typetext.getText().toString()) {
+                switch (typeText.getText().toString()) {
                     case "衣":
                         return Account.CLOTH;
                     case "食":
@@ -120,14 +117,14 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
     @Override
     public int getMood() {
-        switch (moodtext.getText().toString()){
-            case "Happy" :
+        switch (moodText.getText().toString()) {
+            case "Happy":
                 return Account.HAPPY;
-            case "Sad" :
+            case "Sad":
                 return Account.SAD;
-            case "Excited" :
+            case "Excited":
                 return Account.EXITED;
-            case "Other" :
+            case "Other":
                 return Account.OTHER;
             default:
                 return Account.HAPPY;
@@ -136,15 +133,18 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
     @Override
     public String getNote() {
-        return notetext.getText().toString();
+        return noteText.getText().toString();
     }
 
     @Override
     public boolean getSignal() {
-        switch (radioGroup.getCheckedRadioButtonId()){
-            case R.id.income : return true;
-            case R.id.outcome : return false;
-            default: return false;
+        switch (radioGroup.getCheckedRadioButtonId()) {
+            case R.id.income:
+                return true;
+            case R.id.outcome:
+                return false;
+            default:
+                return false;
         }
     }
 
@@ -155,48 +155,80 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
     @Override
     public void setAll(Account account) {
-        Myyear = Integer.parseInt(account.getYear());
-        Mymonth = Integer.parseInt(account.getMonth()) - 1;
-        Mydate = Integer.parseInt(account.getDay());
-        moneytext.setText(Double.toString(account.getMoney()));
-        timetext.setText(account.getYear()+" "+account.getMonth()+" "+account.getDay());
-        notetext.setText(account.getNote());
+        MyYear = Integer.parseInt(account.getYear());
+        MyMonth = Integer.parseInt(account.getMonth()) - 1;
+        MyDate = Integer.parseInt(account.getDay());
+        moneyText.setText(Double.toString(account.getMoney()));
+        timeText.setText(account.getYear() + " " + account.getMonth() + " " + account.getDay());
+        noteText.setText(account.getNote());
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Myyear = year;
-                Mymonth = month ;
-                Mydate = dayOfMonth;
-                int j = Mymonth + 1;
-                timetext.setText(Myyear+" "+ j +" "+Mydate);
+                MyYear = year;
+                MyMonth = month;
+                MyDate = dayOfMonth;
+                int j = MyMonth + 1;
+                timeText.setText(MyYear + " " + j + " " + MyDate);
             }
         };
-        datePickerDialog = new DatePickerDialog(this , listener, Myyear ,Mymonth,Mydate);
-        switch (account.getMood()){
-            case Account.HAPPY:moodtext.setText("Happy");break;
-            case Account.SAD:moodtext.setText("Sad");break;
-            case Account.EXITED:moodtext.setText("Excited");break;
-            case Account.OTHER:moodtext.setText("Other");break;
-            default:moodtext.setText("Happy");break;
+        datePickerDialog = new DatePickerDialog(this, listener, MyYear, MyMonth, MyDate);
+        switch (account.getMood()) {
+            case Account.HAPPY:
+                moodText.setText("开心");
+                break;
+            case Account.SAD:
+                moodText.setText("难过");
+                break;
+            case Account.EXITED:
+                moodText.setText("兴奋");
+                break;
+            case Account.OTHER:
+                moodText.setText("其他");
+                break;
+            default:
+                moodText.setText("开心");
+                break;
         }
-        if (account.isSignal()){
+        if (account.isSignal()) {
             radioGroup.check(R.id.income);
-            switch (account.getType()){
-                case Account.WAGES: typetext.setText("工资");break;
-                case Account.GIFT: typetext.setText("礼物");break;
-                case Account.FINANCIAL_MANAGEMENT: typetext.setText("理财");break;
-                case Account.ELSE: typetext.setText("其他");break;
-                default: typetext.setText("其他");break;
+            switch (account.getType()) {
+                case Account.WAGES:
+                    typeText.setText("工资");
+                    break;
+                case Account.GIFT:
+                    typeText.setText("礼物");
+                    break;
+                case Account.FINANCIAL_MANAGEMENT:
+                    typeText.setText("理财");
+                    break;
+                case Account.ELSE:
+                    typeText.setText("其他");
+                    break;
+                default:
+                    typeText.setText("其他");
+                    break;
             }
-        }else {
+        } else {
             radioGroup.check(R.id.outcome);
-            switch (account.getType()){
-                case Account.CLOTH: typetext.setText("衣");break;
-                case Account.EAT: typetext.setText("食");break;
-                case Account.GO: typetext.setText("行");break;
-                case Account.STUDY: typetext.setText("学");break;
-                case Account.PLAY: typetext.setText("玩");break;
-                default: typetext.setText("衣");break;
+            switch (account.getType()) {
+                case Account.CLOTH:
+                    typeText.setText("衣");
+                    break;
+                case Account.EAT:
+                    typeText.setText("食");
+                    break;
+                case Account.GO:
+                    typeText.setText("行");
+                    break;
+                case Account.STUDY:
+                    typeText.setText("学");
+                    break;
+                case Account.PLAY:
+                    typeText.setText("玩");
+                    break;
+                default:
+                    typeText.setText("衣");
+                    break;
             }
         }
     }
@@ -204,61 +236,61 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
     @Override
     public void sendDayNotification() {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = "DayMax";
             String chanelName = "日最大金额警告";
-            manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
+            manager.createNotificationChannel(new NotificationChannel(channelId, chanelName,
                     NotificationManager.IMPORTANCE_HIGH));
         }
-        Notification notification = new NotificationCompat.Builder(this,"DayMax")
+        Notification notification = new NotificationCompat.Builder(this, "DayMax")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setContentTitle("警告")
                 .setContentText("你的日消费金额已超过预定最大值，请理性消费")
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
                 .build();
-        manager.notify(1,notification);
+        manager.notify(1, notification);
     }
 
     @Override
     public void sendWeekNotification() {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = "WeekMax";
             String chanelName = "周最大金额警告";
-            manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
+            manager.createNotificationChannel(new NotificationChannel(channelId, chanelName,
                     NotificationManager.IMPORTANCE_HIGH));
         }
-        Notification notification = new NotificationCompat.Builder(this,"WeekMax")
+        Notification notification = new NotificationCompat.Builder(this, "WeekMax")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setContentTitle("警告")
                 .setContentText("你的周消费金额已超过预定最大值，请理性消费")
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
                 .build();
-        manager.notify(2,notification);
+        manager.notify(2, notification);
     }
 
     @Override
     public void sendMonthNotification() {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = "MonthMax";
             String chanelName = "月最大金额警告";
-            manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
+            manager.createNotificationChannel(new NotificationChannel(channelId, chanelName,
                     NotificationManager.IMPORTANCE_HIGH));
         }
-        Notification notification = new NotificationCompat.Builder(this,"MonthMax")
+        Notification notification = new NotificationCompat.Builder(this, "MonthMax")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setContentTitle("警告")
                 .setContentText("你的月消费金额已超过预定最大值，请理性消费")
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
                 .build();
-        manager.notify(3,notification);
+        manager.notify(3, notification);
     }
 
     @Override
@@ -268,12 +300,12 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.create:
-                if (moneytext.getText().toString().length() == 0){
+                if (moneyText.getText().toString().length() == 0) {
                     Toast.makeText(this, "金额不可为空", Toast.LENGTH_SHORT).show();
-                }else {
-                    mpresenter.BackToList(isOldAccount);//创建账单并返回
+                } else {
+                    mPresenter.BackToList(isOldAccount);//创建账单并返回
                 }
                 break;
             case R.id.time_edit://选择时间
@@ -287,7 +319,7 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
                 moodDialog.show();
                 break;
             case R.id.type_edit://选择类型
-                switch (radioGroup.getCheckedRadioButtonId()){
+                switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.outcome:
                         TypeDialog typeDialog = new TypeDialog(this);
                         typeDialog.setCancelable(false);
@@ -302,91 +334,91 @@ public class EditActivity extends AppCompatActivity implements EditContract.View
                         break;
                 }
                 break;
-            }
         }
+    }
 
-    private void getCalendar(){//获取日历时间
+    private void getCalendar() {//获取日历时间
         Calendar calendar = Calendar.getInstance();
-        Myyear = calendar.get(calendar.YEAR);
-        Mymonth = calendar.get(calendar.MONTH);
-        Mydate = calendar.get(calendar.DAY_OF_MONTH);
-        int i = Mymonth + 1;
-        timetext.setText(Myyear + " "+ i +" "+Mydate);
+        MyYear = calendar.get(calendar.YEAR);
+        MyMonth = calendar.get(calendar.MONTH);
+        MyDate = calendar.get(calendar.DAY_OF_MONTH);
+        int i = MyMonth + 1;
+        timeText.setText(MyYear + " " + i + " " + MyDate);
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Myyear = year;
-                Mymonth = month ;
-                Mydate = dayOfMonth;
-                int j = Mymonth + 1;
-                timetext.setText(Myyear+" "+ j +" "+Mydate);
+                MyYear = year;
+                MyMonth = month;
+                MyDate = dayOfMonth;
+                int j = MyMonth + 1;
+                timeText.setText(MyYear + " " + j + " " + MyDate);
             }
         };
-        datePickerDialog = new DatePickerDialog(this , listener, Myyear ,Mymonth,Mydate);
+        datePickerDialog = new DatePickerDialog(this, listener, MyYear, MyMonth, MyDate);
     }
 
-    private void initView(){
-        moneytext = findViewById(R.id.money_edit);
-        timetext = findViewById(R.id.time_edit);
-        moodtext = findViewById(R.id.mood_edit);
-        notetext = findViewById(R.id.note_edit);
-        typetext = findViewById(R.id.type_edit);
+    private void initView() {
+        moneyText = findViewById(R.id.money_edit);
+        timeText = findViewById(R.id.time_edit);
+        moodText = findViewById(R.id.mood_edit);
+        noteText = findViewById(R.id.note_edit);
+        typeText = findViewById(R.id.type_edit);
         create = findViewById(R.id.create);
         create.setOnClickListener(this);
-        timetext.setOnClickListener(this);
-        moodtext.setOnClickListener(this);
-        typetext.setOnClickListener(this);
+        timeText.setOnClickListener(this);
+        moodText.setOnClickListener(this);
+        typeText.setOnClickListener(this);
         radioGroup = findViewById(R.id.account_type);
-        mpresenter = new EditPresenter(this, LocalRepo.getInstance());
+        mPresenter = new EditPresenter(this, LocalRepo.getInstance());
         Intent intent = getIntent();
         String type = intent.getStringExtra("type");
-        if (type.equals("new")){
+        if (type.equals("new")) {
             getCalendar();
             isOldAccount = false;
-        }else {
-            index = intent.getIntExtra("accountIndex",0);
+        } else {
+            index = intent.getIntExtra("accountIndex", 0);
             isOldAccount = true;
-            mpresenter.createOldEdit(index);
+            mPresenter.createOldEdit(index);
         }
     }
 
 
     @Override
     public void setType(String type) {
-        typetext.setText(type);
+        typeText.setText(type);
     }
 
     @Override
     public void setMood(String mood) {
-        moodtext.setText(mood);
+        moodText.setText(mood);
     }
 
 
     @Override
     public void setIncomeType(String incomeType) {
-        typetext.setText(incomeType);
+        typeText.setText(incomeType);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-           AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-           dialog.setTitle("退出提示");
-           dialog.setMessage("账单未完成，确定要退出吗?若要保存草稿，请点取消后点击最下方按钮");
-           dialog.setCancelable(false);
-           dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-               @Override
-               public void onClick(DialogInterface dialog, int which) {
-                   finish();
-               }
-           });
-           dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-               @Override
-               public void onClick(DialogInterface dialog, int which) {
-                   dialog.dismiss();
-               }
-           });
-           dialog.show();
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("退出提示");
+            dialog.setMessage("账单未完成，确定要退出吗?若要保存草稿，请点取消后点击最下方按钮");
+            dialog.setCancelable(false);
+            dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
         }
         return false;
     }

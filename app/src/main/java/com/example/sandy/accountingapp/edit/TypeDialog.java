@@ -5,38 +5,36 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.example.sandy.accountingapp.R;
 
-public class TypeDialog extends Dialog implements View.OnClickListener ,
+public class TypeDialog extends Dialog implements View.OnClickListener,
         RadioGroup.OnCheckedChangeListener {
 
-    private Context mcontext;
+    private Context mContext;
     private RadioGroup group;
     private Button create;
     private Button cancel;
     private DialogListener.typeListener typeListener;
 
 
-
     public TypeDialog(Context context) {
         super(context);
-        mcontext = context;
+        mContext = context;
 
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = View.inflate(mcontext,R.layout.typedialog_item,null);
+        View view = View.inflate(mContext, R.layout.typedialog_item, null);
         setContentView(view);
         setCanceledOnTouchOutside(false);//点击外侧无法取消
         init();
     }
 
-    private void init(){
+    private void init() {
         create = findViewById(R.id.create_type);
         cancel = findViewById(R.id.cancel_type);
         create.setOnClickListener(this);
@@ -47,9 +45,9 @@ public class TypeDialog extends Dialog implements View.OnClickListener ,
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.create_type:
-                switch (group.getCheckedRadioButtonId()){
+                switch (group.getCheckedRadioButtonId()) {
                     case R.id.box_clothes:
                         typeListener.setType("衣");
                         break;
@@ -80,7 +78,7 @@ public class TypeDialog extends Dialog implements View.OnClickListener ,
 
     }
 
-    public void setTypeListener(DialogListener.typeListener listener){
+    public void setTypeListener(DialogListener.typeListener listener) {
         typeListener = listener;
     }
 }

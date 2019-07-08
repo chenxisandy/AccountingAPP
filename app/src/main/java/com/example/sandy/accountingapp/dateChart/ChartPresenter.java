@@ -12,11 +12,11 @@ import com.github.mikephil.charting.data.PieDataSet;
 
 public class ChartPresenter implements ChartContract.Presenter {
 
-    LocalRepo localRepo;
+    private LocalRepo localRepo;
 
-    ChartContract.View view;
+    private ChartContract.View view;
 
-    public ChartPresenter(LocalRepo localRepo, ChartContract.View view) {
+    ChartPresenter(LocalRepo localRepo, ChartContract.View view) {
         this.localRepo = localRepo;
         this.view = view;
     }

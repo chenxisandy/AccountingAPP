@@ -116,8 +116,8 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        LocalRepo.getInstance().deleteAccount(accountList.get(position));
                         accountList.remove(position);
-//        LocalRepo.getInstance().getUserList().get(LocalRepo.getInstance().getCurrentIndexOfUser()).getAccountList().remove(position);
                         notifyItemRemoved(position);
                     }
                 })

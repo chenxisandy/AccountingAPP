@@ -16,28 +16,28 @@ public class ActivityUtils {
 
     private static ActivityUtils INSTANCE = new ActivityUtils();
 
-    public static ActivityUtils getInstance(){
-        if (INSTANCE == null){
+    public static ActivityUtils getInstance() {
+        if (INSTANCE == null) {
             INSTANCE = new ActivityUtils();
         }
         return INSTANCE;
     }
 
-    public void addActivity(AppCompatActivity activity){
-        if (!ActivityList.contains(activity)){
+    public void addActivity(AppCompatActivity activity) {
+        if (!ActivityList.contains(activity)) {
             ActivityList.add(activity);
         }
     }
 
-    public void deleteActivity(AppCompatActivity activity){
+    public void deleteActivity(AppCompatActivity activity) {
         if (ActivityList.contains(activity)) {
             ActivityList.remove(activity);
             activity.finish();
         }
     }
 
-    public void removeAllActivity(){
-        for (AppCompatActivity activity:ActivityList){
+    public void removeAllActivity() {
+        for (AppCompatActivity activity : ActivityList) {
             activity.finish();
         }
     }

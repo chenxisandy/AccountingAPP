@@ -10,7 +10,7 @@ import android.widget.RadioGroup;
 import com.example.sandy.accountingapp.R;
 
 
-public class IncomeDialog extends Dialog implements View.OnClickListener{
+public class IncomeDialog extends Dialog implements View.OnClickListener {
 
     private Context context;
     private RadioGroup group;
@@ -26,13 +26,13 @@ public class IncomeDialog extends Dialog implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = View.inflate(context, R.layout.incomedialog,null);
+        View view = View.inflate(context, R.layout.incomedialog, null);
         setContentView(view);
         setCanceledOnTouchOutside(false);
         init();
     }
 
-   private void init(){
+    private void init() {
         group = findViewById(R.id.group);
         create = findViewById(R.id.create_income_type);
         cancel = findViewById(R.id.cancel_income_type);
@@ -42,12 +42,12 @@ public class IncomeDialog extends Dialog implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.cancel_income_type:
                 dismiss();
                 break;
             case R.id.create_income_type:
-                switch (group.getCheckedRadioButtonId()){
+                switch (group.getCheckedRadioButtonId()) {
                     case R.id.box_wages:
                         incomeListener.setIncomeType("工资");
                         break;
@@ -67,7 +67,7 @@ public class IncomeDialog extends Dialog implements View.OnClickListener{
 
     }
 
-    public void setIncomeListener(DialogListener.incomeListener listener){
+    public void setIncomeListener(DialogListener.incomeListener listener) {
         incomeListener = listener;
     }
 

@@ -72,7 +72,7 @@ public class User extends LitePalSupport {
         this.monthMoney = monthMoney;
     }
 
-    public void addAccount(Account account){
+    public void addAccount(Account account) {
         accountList.add(account);
     }
 

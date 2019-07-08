@@ -40,7 +40,7 @@ public class SettingActivity extends AppCompatActivity implements SettingContrac
     }
 
 
-    public void initView(){
+    public void initView() {
         dayMax = findViewById(R.id.day_max);
         weekMax = findViewById(R.id.week_max);
         monthMax = findViewById(R.id.month_max);
@@ -53,7 +53,7 @@ public class SettingActivity extends AppCompatActivity implements SettingContrac
         maxWarning.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     dayMax.setVisibility(View.VISIBLE);
                     weekMax.setVisibility(View.VISIBLE);
                     monthMax.setVisibility(View.VISIBLE);
@@ -63,7 +63,7 @@ public class SettingActivity extends AppCompatActivity implements SettingContrac
                     createSetting.setVisibility(View.VISIBLE);
                     warningSignal = true;//展示界面
                     settingPresenter.changeWarningSignal(true);
-                }else {
+                } else {
                     dayMax.setVisibility(View.INVISIBLE);
                     weekMax.setVisibility(View.INVISIBLE);
                     monthMax.setVisibility(View.INVISIBLE);
@@ -85,7 +85,7 @@ public class SettingActivity extends AppCompatActivity implements SettingContrac
             }
         });
         warningSignal = settingPresenter.isWarningSignal();
-        if (warningSignal == true){
+        if (warningSignal) {
             maxWarning.setChecked(true);
             settingPresenter.setMaxFromUser();
         }
@@ -121,63 +121,64 @@ public class SettingActivity extends AppCompatActivity implements SettingContrac
     public String getMonthMAx() {
         return monthMaxEdit.getText().toString();
     }
+
     @Override
     public void sendDayNotification() {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = "DayMax";
             String chanelName = "日最大金额警告";
-            manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
+            manager.createNotificationChannel(new NotificationChannel(channelId, chanelName,
                     NotificationManager.IMPORTANCE_HIGH));
         }
-        Notification notification = new NotificationCompat.Builder(this,"DayMax")
+        Notification notification = new NotificationCompat.Builder(this, "DayMax")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setContentTitle("警告")
                 .setContentText("你的日消费金额已超过预定最大值，请理性消费")
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
                 .build();
-        manager.notify(1,notification);
+        manager.notify(1, notification);
     }
 
     @Override
     public void sendWeekNotification() {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = "WeekMax";
             String chanelName = "周最大金额警告";
-            manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
+            manager.createNotificationChannel(new NotificationChannel(channelId, chanelName,
                     NotificationManager.IMPORTANCE_HIGH));
         }
-        Notification notification = new NotificationCompat.Builder(this,"WeekMax")
+        Notification notification = new NotificationCompat.Builder(this, "WeekMax")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setContentTitle("警告")
                 .setContentText("你的周消费金额已超过预定最大值，请理性消费")
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
                 .build();
-        manager.notify(2,notification);
+        manager.notify(2, notification);
     }
 
     @Override
     public void sendMonthNotification() {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = "MonthMax";
             String chanelName = "月最大金额警告";
-            manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
+            manager.createNotificationChannel(new NotificationChannel(channelId, chanelName,
                     NotificationManager.IMPORTANCE_HIGH));
         }
-        Notification notification = new NotificationCompat.Builder(this,"MonthMax")
+        Notification notification = new NotificationCompat.Builder(this, "MonthMax")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setContentTitle("警告")
                 .setContentText("你的月消费金额已超过预定最大值，请理性消费")
                 .setAutoCancel(true)
                 .setWhen(System.currentTimeMillis())
                 .build();
-        manager.notify(3,notification);
+        manager.notify(3, notification);
     }
 }

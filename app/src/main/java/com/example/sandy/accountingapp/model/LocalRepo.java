@@ -1,13 +1,10 @@
 package com.example.sandy.accountingapp.model;
 
 import android.graphics.Color;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
+import android.icu.util.Calendar;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -18,15 +15,9 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
-import android.icu.util.Calendar;
-
 import org.litepal.LitePal;
-import org.litepal.crud.LitePalSupport;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,7 +26,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.sandy.accountingapp.dateChart.ChartContract.DAY;
 import static com.example.sandy.accountingapp.dateChart.ChartContract.MONTH;
 
 public class LocalRepo {
@@ -49,7 +39,10 @@ public class LocalRepo {
         return INSTANCE;
     }
 
-    private LocalRepo() {}; //构造器私有化
+    private LocalRepo() {
+    }
+
+    ; //构造器私有化
 
     private List<User> userList = new ArrayList<>();
 
@@ -58,19 +51,19 @@ public class LocalRepo {
     //login
     public boolean checkName(String name) {    //判断在是不是名字
         int i = userList.size();//获得list的大小
-        for (int j = 0 ;j < i ; j++){//遍历找用户
-            if(userList.get(j).getName().equals(name)){
+        for (int j = 0; j < i; j++) {//遍历找用户
+            if (userList.get(j).getName().equals(name)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean checkPassWd(String passWord,String name) {
+    public boolean checkPassWd(String passWord, String name) {
         User user = userList.get(getIndexByName(name));
-        if (user.getPassword().equals(passWord)){
+        if (user.getPassword().equals(passWord)) {
             return true;
-        }else
+        } else
             return false;
 
     }
@@ -82,73 +75,76 @@ public class LocalRepo {
         return null;
     }
 
-    public boolean isBeyondDayMax(){////判断是否超过每日最大金额
+    public boolean isBeyondDayMax() {////判断是否超过每日最大金额
         double total = 0;
         Calendar calendar = Calendar.getInstance();
         String year = Integer.toString(calendar.get(Calendar.YEAR));
         int i = calendar.get(Calendar.MONTH) + 1;
         String month = Integer.toString(i);
         String day = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
-        for (Account account : getAccountListByIndex(getCurrentIndexOfUser())){
-            if (year.equals(account.getYear())){
-                if (month.equals(account.getMonth())){
-                    if (day.equals(account.getDay())){
-                        if (!account.isSignal()){
+        for (Account account : getAccountListByIndex(getCurrentIndexOfUser())) {
+            if (year.equals(account.getYear())) {
+                if (month.equals(account.getMonth())) {
+                    if (day.equals(account.getDay())) {
+                        if (!account.isSignal()) {
                             total = total + account.getMoney();
                         }
                     }
                 }
             }
         }
-        if (total >= getUserList().get(getCurrentIndexOfUser()).getDayMoney()){
+        if (total >= getUserList().get(getCurrentIndexOfUser()).getDayMoney() &&
+                getUserList().get(getCurrentIndexOfUser()).getDayMoney() != 0) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    public boolean isBeyondMonthMax(){//判断是否超过每月最大金额
+    public boolean isBeyondMonthMax() {//判断是否超过每月最大金额
         double total = 0;
         Calendar calendar = Calendar.getInstance();
         String year = Integer.toString(calendar.get(Calendar.YEAR));
-        for (Account account : getAccountListByIndex(getCurrentIndexOfUser())){
-            if (year.equals(account.getYear())){
-                if (!account.isSignal()){
+        for (Account account : getAccountListByIndex(getCurrentIndexOfUser())) {
+            if (year.equals(account.getYear())) {
+                if (!account.isSignal()) {
                     total = total + account.getMoney();
                 }
             }
         }
-        if (total >= getUserList().get(getCurrentIndexOfUser()).getMonthMoney()){
+        if (total >= getUserList().get(getCurrentIndexOfUser()).getMonthMoney() &&
+                getUserList().get(getCurrentIndexOfUser()).getMonthMoney() != 0) {
             return true;
-        }else {
-          return false;
-        }
-    }
-
-    public boolean isBeyondWeekMax(){//判断是否超过每周最大金额
-        double total = 0;
-        Calendar calendar = Calendar.getInstance();
-        int i = calendar.get(Calendar.WEEK_OF_YEAR);
-        String year = Integer.toString(calendar.get(Calendar.YEAR));
-        for (Account account : getAccountListByIndex(getCurrentIndexOfUser())){
-              if (year.equals(account.getYear())){
-                  if (i == getWeek(account.getYear()+"-"+account.getMonth()+"-"+
-                          account.getDay())){
-                      if (! account.isSignal()){
-                          total = total + account.getMoney();
-                      }
-                  }
-              }
-        }
-        if (total >= getUserList().get(getCurrentIndexOfUser()).getWeekMoney()){
-            return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    public int getWeek(String str){
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+    public boolean isBeyondWeekMax() {//判断是否超过每周最大金额
+        double total = 0;
+        Calendar calendar = Calendar.getInstance();
+        int i = calendar.get(Calendar.WEEK_OF_YEAR);
+        String year = Integer.toString(calendar.get(Calendar.YEAR));
+        for (Account account : getAccountListByIndex(getCurrentIndexOfUser())) {
+            if (year.equals(account.getYear())) {
+                if (i == getWeek(account.getYear() + "-" + account.getMonth() + "-" +
+                        account.getDay())) {
+                    if (!account.isSignal()) {
+                        total = total + account.getMoney();
+                    }
+                }
+            }
+        }
+        if (total >= getUserList().get(getCurrentIndexOfUser()).getWeekMoney() &&
+                getUserList().get(getCurrentIndexOfUser()).getWeekMoney() != 0.0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getWeek(String str) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
             date = sdf.parse(str);
@@ -162,15 +158,14 @@ public class LocalRepo {
     }
 
 
-
     public List<User> getUserList() {
         return userList;
     }
 
     public int getIndexByName(String name) {
         int i = userList.size();//获得list的大小
-        for (int j = 0 ;j < i ; j++){//遍历找用户
-            if(userList.get(j).getName().equals(name)){
+        for (int j = 0; j < i; j++) {//遍历找用户
+            if (userList.get(j).getName().equals(name)) {
                 return j;
             }
         }
@@ -178,15 +173,15 @@ public class LocalRepo {
     }
 
     public void createUser(String name, String passWd) {
-        User user = new User(name,passWd);
+        User user = new User(name, passWd);
         List<Account> list = new ArrayList<>(); //必须创建一个list以免为空
         user.setAccountList(list);
         userList.add(user);
-//        user.save();
+        saveUser();
     }
 
     //list
-    public List<Account> getAccountListByIndex(int index){
+    public List<Account> getAccountListByIndex(int index) {
         return userList.get(index).getAccountList();
     }
 
@@ -200,13 +195,7 @@ public class LocalRepo {
 
     //chart table
     public PieData getPieData(float range) {
-//        List<String> xValues = new ArrayList<>();   //存数据名称
-//        xValues.add("衣服");
-//        xValues.add("食物");
-//        xValues.add("出行");
-//        xValues.add("学习");
-//        xValues.add("娱乐");
-//
+
         List<PieEntry> values = new ArrayList<>();    //存实际数据
 
         float clothQuarter = 0;
@@ -215,7 +204,6 @@ public class LocalRepo {
         float studyQuarter = 0;
         float playQuarter = 0;
 
-        //userList.get(currentIndexOfUser).getAccountList();
         for (Account account :
                 userList.get(currentIndexOfUser).getAccountList()) {
             if (account.isSignal() == Account.NEGATIVE) {
@@ -258,7 +246,6 @@ public class LocalRepo {
         //y轴集合
         PieDataSet pieDataSet = new PieDataSet(values, "消费分类统计");
         pieDataSet.setSliceSpace(0f);   //设置饼状图地之间地距离
-//        pieDataSet.setValueFormatter(new PercentFormatter());
         pieDataSet.setColors(Color.BLUE, Color.GREEN, Color.GRAY, Color.YELLOW, Color.DKGRAY);
 
         return new PieData(pieDataSet);
@@ -271,7 +258,8 @@ public class LocalRepo {
     public LineData getLineData(int type, LineChart lineChart) {
         List<Entry> yEntries = new ArrayList<>();
         List<Account> accounts = userList.get(currentIndexOfUser).getAccountList();
-        accounts.sort(new Comparator<Account>() {
+        List<Account> accountsSort = new ArrayList<>(accounts);
+        accountsSort.sort(new Comparator<Account>() {
             @Override
             public int compare(Account o1, Account o2) {
                 if (Integer.parseInt(o1.getYear()) > Integer.parseInt(o2.getYear())) {
@@ -296,14 +284,14 @@ public class LocalRepo {
             }
         });
         float[] SumMoney = new float[100];
-        if (accounts.size() > 0) {
-            xData[0] = accounts.get(0).getYear() + "年" + accounts.get(0).getMonth() + "月";
+        if (accountsSort.size() > 0) {
+            xData[0] = accountsSort.get(0).getYear() + "年" + accountsSort.get(0).getMonth() + "月";
             int count = 0;
             switch (type) {
                 case MONTH:
-                    Account minAccount = accounts.get(0);
+                    Account minAccount = accountsSort.get(0);
                     for (Account account :
-                            accounts) {
+                            accountsSort) {
                         if (account.isSignal() == Account.NEGATIVE) {
                             if (account.compareTo(minAccount) == 0) {
                                 SumMoney[count] += account.getMoney();
@@ -331,7 +319,7 @@ public class LocalRepo {
             xAxis.setValueFormatter(new ValueFormatter() {
                 @Override
                 public String getFormattedValue(float value) {
-                    return xData[(int)value];
+                    return xData[(int) value];
                 }
             });
         } else {
@@ -343,26 +331,14 @@ public class LocalRepo {
         lineDataSet.setDrawValues(true);
         lineDataSet.setCircleColor(Color.RED);
 
-
-//        xAxis.setValueFormatter(new IAxisValueFormatter() {
-//
-//            @Override
-//            public String getFormattedValue(float value, AxisBase axis) {
-//
-//            }
-//        });
-
-        LineData lineData = new LineData(lineDataSet);
-
-
-        // TODO: 2019/7/5 xData怎么办
-        return lineData;
+        return new LineData(lineDataSet);
     }
 
     public BarData getBarData(BarChart barChart) {
         List<BarEntry> yEntries = new ArrayList<>();
         List<Account> accounts = userList.get(currentIndexOfUser).getAccountList();
-        accounts.sort(new Comparator<Account>() {
+        List<Account> accountsSort = new ArrayList<>(accounts);
+        accountsSort.sort(new Comparator<Account>() {
             @Override
             public int compare(Account o1, Account o2) {
                 if (Integer.parseInt(o1.getYear()) > Integer.parseInt(o2.getYear())) {
@@ -387,12 +363,12 @@ public class LocalRepo {
             }
         });
         float[] SumMoney = new float[100];
-        if (accounts.size() > 0) {
-            xData[0] = accounts.get(0).getYear() + "年" + accounts.get(0).getMonth() + "月";
+        if (accountsSort.size() > 0) {
+            xData[0] = accountsSort.get(0).getYear() + "年" + accountsSort.get(0).getMonth() + "月";
             int count = 0;
-            Account minAccount = accounts.get(0);
+            Account minAccount = accountsSort.get(0);
             for (Account account :
-                    accounts) {
+                    accountsSort) {
                 if (account.isSignal() == Account.NEGATIVE) {
                     if (account.compareTo(minAccount) == 0) {
                         SumMoney[count] += account.getMoney();
@@ -409,8 +385,8 @@ public class LocalRepo {
             }
             XAxis xAxis = barChart.getXAxis();
             xAxis.setEnabled(true);
-            xAxis.setDrawAxisLine(true);
-            xAxis.setDrawGridLines(true);
+            xAxis.setDrawAxisLine(false);
+            xAxis.setDrawGridLines(false);
             xAxis.setDrawLabels(true);
             xAxis.setLabelCount(count);
             if (count == 0) {
@@ -419,7 +395,7 @@ public class LocalRepo {
             xAxis.setValueFormatter(new ValueFormatter() {
                 @Override
                 public String getFormattedValue(float value) {
-                    return xData[(int)value];
+                    return xData[(int) value];
                 }
             });
         } else {
@@ -432,18 +408,26 @@ public class LocalRepo {
 
         return new BarData(barDataSet);
     }
-    public void saveUser(){
+
+    public void saveUser() {
         User user = userList.get(currentIndexOfUser);
-        for (Account account : user.getAccountList()){
+        for (Account account : user.getAccountList()) {
             account.setUser(user);
         }
         LitePal.saveAll(user.getAccountList());
         user.save();
     }
 
-    public void getUsers(){
-        List<User> users = LitePal.findAll(User.class,true);
+    public void getUsers() {
+        List<User> users = LitePal.findAll(User.class, true);
         userList.addAll(users);
+    }
+
+    public void deleteAccount(Account account) {
+        LitePal.deleteAll(Account.class, "money = ? and mood = ? and type = ? and year = ? and month = ? and day = ?"
+                , Double.toString(account.getMoney()),
+                Integer.toString(account.getMood()), Integer.toString(account.getType())
+                , account.getYear(), account.getMonth(), account.getDay());
     }
 
 }

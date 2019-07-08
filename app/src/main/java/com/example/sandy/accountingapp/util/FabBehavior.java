@@ -26,15 +26,6 @@ public class FabBehavior extends FloatingActionButton.Behavior {
         return axes == ViewCompat.SCROLL_AXIS_VERTICAL || super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, axes, type);
     }
 
-//    @Override
-//    public void onNestedScrollAccepted(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) {
-//        if (mToolbar != null) {
-//            mToolbar = coordinatorLayout.findViewById(R.id.tool_bar);
-//        }
-//        super.onNestedScrollAccepted(coordinatorLayout, child, directTargetChild, target, axes, type);
-//    }
-
-
     @Override
     public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type);
@@ -49,7 +40,7 @@ public class FabBehavior extends FloatingActionButton.Behavior {
 
     private void onHide(FloatingActionButton fab) {
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
-        fab.animate().translationY(fab.getHeight() + ((CoordinatorLayout.LayoutParams)layoutParams).bottomMargin).setInterpolator(new AccelerateInterpolator(3));
+        fab.animate().translationY(fab.getHeight() + layoutParams.bottomMargin).setInterpolator(new AccelerateInterpolator(3));
     }
 
     private void onShow(FloatingActionButton fab) {

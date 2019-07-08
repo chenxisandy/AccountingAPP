@@ -7,7 +7,7 @@ package com.example.sandy.accountingapp.model;
 
 import org.litepal.crud.LitePalSupport;
 
-public class Account extends LitePalSupport implements Comparable{
+public class Account extends LitePalSupport implements Comparable {
 
     //账单类型，衣，食，行，学，玩
     public static final int CLOTH = 0;
@@ -82,7 +82,6 @@ public class Account extends LitePalSupport implements Comparable{
     }
 
 
-
     //set
 
     public void setMoney(double money) {
@@ -135,14 +134,14 @@ public class Account extends LitePalSupport implements Comparable{
 
     @Override
     public int compareTo(Object o) {
-        if (Integer.parseInt(this.year) > Integer.parseInt(((Account)o).year)) {
+        if (Integer.parseInt(this.year) > Integer.parseInt(((Account) o).year)) {
             return 1;
-        } else if (Integer.parseInt(this.year) < Integer.parseInt(((Account)o).year)) {
+        } else if (Integer.parseInt(this.year) < Integer.parseInt(((Account) o).year)) {
             return -1;
         } else {
-            if (Integer.parseInt(this.month) > Integer.parseInt(((Account)o).month)) {
+            if (Integer.parseInt(this.month) > Integer.parseInt(((Account) o).month)) {
                 return 1;
-            } else if (Integer.parseInt(this.month) < Integer.parseInt(((Account)o).month)) {
+            } else if (Integer.parseInt(this.month) < Integer.parseInt(((Account) o).month)) {
                 return -1;
             } else {
                 return 0;

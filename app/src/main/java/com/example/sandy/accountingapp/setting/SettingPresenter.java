@@ -14,19 +14,37 @@ public class SettingPresenter implements SettingContract.Presenter {
 
     @Override
     public void setMaxFromUser() {
-        view.setDayMax(Double.toString(repo.getUserList().get(repo.getCurrentIndexOfUser()).
-                getDayMoney()));
-        view.setWeekMax(Double.toString(repo.getUserList().get(repo.getCurrentIndexOfUser()).
-                getWeekMoney()));
-        view.setMonthMax(Double.toString(repo.getUserList().get(repo.getCurrentIndexOfUser()).
-                getMonthMoney()));
+        if (repo.getUserList().get(repo.getCurrentIndexOfUser()).getDayMoney() != 0)
+            view.setDayMax(Double.toString(repo.getUserList().get(repo.getCurrentIndexOfUser()).
+                    getDayMoney()));
+        if (repo.getUserList().get(repo.getCurrentIndexOfUser()).getWeekMoney() != 0)
+            view.setWeekMax(Double.toString(repo.getUserList().get(repo.getCurrentIndexOfUser()).
+                    getWeekMoney()));
+        if (repo.getUserList().get(repo.getCurrentIndexOfUser()).getMonthMoney() != 0)
+            view.setMonthMax(Double.toString(repo.getUserList().get(repo.getCurrentIndexOfUser()).
+                    getMonthMoney()));
     }
 
     @Override
     public void setUserMax() {
-        double dayMoney = Double.parseDouble(view.getDayMax());
-        double weekMoney = Double.parseDouble(view.getWeekMax());
-        double monthMoney = Double.parseDouble(view.getMonthMAx());
+        double dayMoney;
+        double weekMoney;
+        double monthMoney;
+        if (view.getDayMax().length() == 0) {
+            dayMoney = 0.0;
+        } else {
+            dayMoney = Double.parseDouble(view.getDayMax());
+        }
+        if (view.getMonthMAx().length() == 0) {
+            monthMoney = 0.0;
+        } else {
+            monthMoney = Double.parseDouble(view.getMonthMAx());
+        }
+        if (view.getWeekMax().length() == 0) {
+            weekMoney = 0.0;
+        } else {
+            weekMoney = Double.parseDouble(view.getWeekMax());
+        }
         repo.getUserList().get(repo.getCurrentIndexOfUser()).setDayMoney(dayMoney);
         repo.getUserList().get(repo.getCurrentIndexOfUser()).setWeekMoney(weekMoney);
         repo.getUserList().get(repo.getCurrentIndexOfUser()).setMonthMoney(monthMoney);

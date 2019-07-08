@@ -5,15 +5,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.example.sandy.accountingapp.R;
 
-public class MoodDialog extends Dialog implements View.OnClickListener ,
+public class MoodDialog extends Dialog implements View.OnClickListener,
         RadioGroup.OnCheckedChangeListener {
 
-    private Context mcontext;
+    private Context mContext;
     private RadioGroup group;
     private Button create;
     private Button cancel;
@@ -21,19 +20,19 @@ public class MoodDialog extends Dialog implements View.OnClickListener ,
 
     public MoodDialog(Context context) {
         super(context);
-        mcontext = context;
+        mContext = context;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = View.inflate(mcontext, R.layout.mooddialog,null);
+        View view = View.inflate(mContext, R.layout.mooddialog, null);
         setContentView(view);
         setCanceledOnTouchOutside(false);
         init();
     }
 
-    private void init(){
+    private void init() {
         group = findViewById(R.id.mood_group);
         create = findViewById(R.id.create_mood);
         cancel = findViewById(R.id.cancel_mood);
@@ -44,9 +43,9 @@ public class MoodDialog extends Dialog implements View.OnClickListener ,
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.create_mood:
-                switch (group.getCheckedRadioButtonId()){
+                switch (group.getCheckedRadioButtonId()) {
                     case R.id.happy_button:
                         moodListener.setMood("开心");
                         break;
@@ -73,7 +72,7 @@ public class MoodDialog extends Dialog implements View.OnClickListener ,
 
     }
 
-    public void setMoodListener(DialogListener.moodListener listeneer){
+    public void setMoodListener(DialogListener.moodListener listeneer) {
         moodListener = listeneer;
     }
 
