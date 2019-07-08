@@ -46,6 +46,8 @@ public class Account extends LitePalSupport implements Comparable{
 
 
     //private
+    private User user;
+
     private double money;   //income
 
     private int type;       //类型
@@ -146,5 +148,13 @@ public class Account extends LitePalSupport implements Comparable{
                 return 0;
             }
         }
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

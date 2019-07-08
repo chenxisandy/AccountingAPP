@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <litepal>
     <dbname value = "users"/>
-    <version value = "3"/>
+    <version value = "1"/>
     <list>
         <mapping class="com.example.sandy.accountingapp.model.User"></mapping>
         <mapping class="com.example.sandy.accountingapp.model.Account"></mapping>
     </list>
-    <storage value = "external"/>
+    <storage value = "internal"/>
 </litepal>

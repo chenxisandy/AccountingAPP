@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sandy.accountingapp">
 
+    <uses-permission android:name="android.permission.REORDER_TASKS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:name="org.litepal.LitePalApplication"
         android:allowBackup="true"
@@ -12,7 +16,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".dateChart.ChartActivity"></activity>
         <activity android:name=".setting.SettingActivity" />
-        <activity android:name=".login.LoginActivity">
+        <activity android:name=".login.LoginActivity"
+            android:excludeFromRecents="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

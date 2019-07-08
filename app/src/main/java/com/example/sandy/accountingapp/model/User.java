@@ -88,4 +88,5 @@ public class User extends LitePalSupport {
         isWarning = warning;
     }
 
+
 }
