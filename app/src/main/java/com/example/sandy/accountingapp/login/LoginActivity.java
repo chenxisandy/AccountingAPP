@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 } else if (password.getText().toString().length() >= 3) {
                     mpresenter.LoginIn();
                 } else {
-                    Toast.makeText(this, "密码必须大于3位", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "密码必须不少于3位", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

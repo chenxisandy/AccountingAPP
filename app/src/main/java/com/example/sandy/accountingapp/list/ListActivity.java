@@ -123,7 +123,7 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
         switch (menuItem.getItemId()) {
             case R.id.user_quit:
                 Toast.makeText(this, "退出登录成功", Toast.LENGTH_SHORT).show();
-                finish();
+                ActivityUtils.getInstance().finishList();
                 break;
             case R.id.data_table:
                 Toast.makeText(this, "进入数据统计界面", Toast.LENGTH_SHORT).show();

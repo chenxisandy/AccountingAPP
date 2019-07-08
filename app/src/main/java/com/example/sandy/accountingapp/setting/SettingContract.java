@@ -9,6 +9,9 @@ public interface SettingContract {
         String getWeekMax();
         void setMonthMax(String s);
         String getMonthMAx();
+        void sendDayNotification();
+        void sendWeekNotification();
+        void sendMonthNotification();
     }
 
     interface Presenter{
@@ -16,5 +19,6 @@ public interface SettingContract {
         void setUserMax();
         boolean isWarningSignal();
         void changeWarningSignal(boolean signal);
+        void beyondMax();
     }
 }

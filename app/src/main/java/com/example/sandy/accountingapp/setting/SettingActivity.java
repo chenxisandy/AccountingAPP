@@ -1,5 +1,11 @@
 package com.example.sandy.accountingapp.setting;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -74,8 +80,8 @@ public class SettingActivity extends AppCompatActivity implements SettingContrac
             @Override
             public void onClick(View v) {
                 settingPresenter.setUserMax();//保存设置
-                Toast.makeText(SettingActivity.this, "设置成功", Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(SettingActivity.this, "设置成功", Toast.LENGTH_SHORT).show();
+                settingPresenter.beyondMax();
             }
         });
         warningSignal = settingPresenter.isWarningSignal();
@@ -114,5 +120,64 @@ public class SettingActivity extends AppCompatActivity implements SettingContrac
     @Override
     public String getMonthMAx() {
         return monthMaxEdit.getText().toString();
+    }
+    @Override
+    public void sendDayNotification() {
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            String channelId = "DayMax";
+            String chanelName = "日最大金额警告";
+            manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
+                    NotificationManager.IMPORTANCE_HIGH));
+        }
+        Notification notification = new NotificationCompat.Builder(this,"DayMax")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                .setContentTitle("警告")
+                .setContentText("你的日消费金额已超过预定最大值，请理性消费")
+                .setAutoCancel(true)
+                .setWhen(System.currentTimeMillis())
+                .build();
+        manager.notify(1,notification);
+    }
+
+    @Override
+    public void sendWeekNotification() {
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            String channelId = "WeekMax";
+            String chanelName = "周最大金额警告";
+            manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
+                    NotificationManager.IMPORTANCE_HIGH));
+        }
+        Notification notification = new NotificationCompat.Builder(this,"WeekMax")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                .setContentTitle("警告")
+                .setContentText("你的周消费金额已超过预定最大值，请理性消费")
+                .setAutoCancel(true)
+                .setWhen(System.currentTimeMillis())
+                .build();
+        manager.notify(2,notification);
+    }
+
+    @Override
+    public void sendMonthNotification() {
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            String channelId = "MonthMax";
+            String chanelName = "月最大金额警告";
+            manager.createNotificationChannel(new NotificationChannel(channelId,chanelName,
+                    NotificationManager.IMPORTANCE_HIGH));
+        }
+        Notification notification = new NotificationCompat.Builder(this,"MonthMax")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                .setContentTitle("警告")
+                .setContentText("你的月消费金额已超过预定最大值，请理性消费")
+                .setAutoCancel(true)
+                .setWhen(System.currentTimeMillis())
+                .build();
+        manager.notify(3,notification);
     }
 }

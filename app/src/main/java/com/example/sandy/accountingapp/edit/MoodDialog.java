@@ -48,16 +48,16 @@ public class MoodDialog extends Dialog implements View.OnClickListener ,
             case R.id.create_mood:
                 switch (group.getCheckedRadioButtonId()){
                     case R.id.happy_button:
-                        moodListener.setMood("Happy");
+                        moodListener.setMood("开心");
                         break;
                     case R.id.Sad_button:
-                        moodListener.setMood("Sad");
+                        moodListener.setMood("难过");
                         break;
                     case R.id.Excited_button:
-                        moodListener.setMood("Excited");
+                        moodListener.setMood("兴奋");
                         break;
                     case R.id.Other_button:
-                        moodListener.setMood("Other");
+                        moodListener.setMood("其他");
                         break;
                 }
                 dismiss();

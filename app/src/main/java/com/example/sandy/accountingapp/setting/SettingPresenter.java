@@ -42,5 +42,20 @@ public class SettingPresenter implements SettingContract.Presenter {
         repo.getUserList().get(repo.getCurrentIndexOfUser()).setWarning(signal);
     }
 
+    @Override
+    public void beyondMax() {
+        if (repo.getUserList().get(repo.getCurrentIndexOfUser()).isWarning()) {
+            if (repo.isBeyondDayMax()) {
+                view.sendDayNotification();
+            }
+            if (repo.isBeyondWeekMax()) {
+                view.sendWeekNotification();
+            }
+            if (repo.isBeyondMonthMax()) {
+                view.sendMonthNotification();
+            }
+        }
+    }
+
 
 }

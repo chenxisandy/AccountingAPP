@@ -23,5 +23,6 @@ public interface EditContract {
 
     interface Presenter{
         void BackToList(boolean isOld);
+        void isBeyondMax();
     }
 }
