@@ -69,12 +69,6 @@ public class LocalRepo {
     }
 
 
-    //method 或许可以加上一个sort
-    public String beyondMax() {   //支出超过最大值，预警,传你要预警的语句，若为null则无是
-        // TODO: 2019/6/30
-        return null;
-    }
-
     public boolean isBeyondDayMax() {////判断是否超过每日最大金额
         double total = 0;
         Calendar calendar = Calendar.getInstance();

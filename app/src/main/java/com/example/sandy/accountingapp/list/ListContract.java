@@ -22,7 +22,6 @@ public interface ListContract {
 
         void toDataTable(); //去用户表格界面
 
-        //void upDateList();
 
     }
 }
