@@ -159,8 +159,7 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
     protected void onRestart() {
         super.onRestart();
         mAdapter.notifyDataSetChanged();
-//        setRecyclerView(LocalRepo.getInstance().getAccountListByIndex(LocalRepo.getInstance().
-//                getCurrentIndexOfUser()));
+        presenter.upDateList();
     }
 
 //    @Override

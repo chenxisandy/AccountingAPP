@@ -29,5 +29,9 @@ public class ListPresenter implements ListContract.Presenter {
         view.toDataTable();
     }
 
+    @Override
+    public void upDateList() {
+        view.setRecyclerView(repo.getAccountListByIndex(repo.getCurrentIndexOfUser()));
+    }
 
 }
