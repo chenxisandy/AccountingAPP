@@ -156,5 +156,13 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         this.accountList = accountList;
     }
 
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mContext = recyclerView.getContext();
+    }
 
+    public void setAccountList(List<Account> accountList) {
+        this.accountList = accountList;
+    }
 }

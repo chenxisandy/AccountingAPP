@@ -31,6 +31,8 @@ import com.example.sandy.accountingapp.model.LocalRepo;
 import com.example.sandy.accountingapp.setting.SettingActivity;
 import com.example.sandy.accountingapp.util.ActivityUtils;
 
+import org.litepal.LitePal;
+
 import java.util.List;
 
 public class ListActivity extends AppCompatActivity implements ListContract.View, NavigationView.OnNavigationItemSelectedListener {
@@ -159,7 +161,9 @@ public class ListActivity extends AppCompatActivity implements ListContract.View
     protected void onRestart() {
         super.onRestart();
         mAdapter.notifyDataSetChanged();
-        presenter.upDateList();
+        mAdapter.setAccountList(LocalRepo.getInstance().getAccountListByIndex(LocalRepo.
+                getInstance().getCurrentIndexOfUser()));
+//        presenter.upDateList();
     }
 
 //    @Override
