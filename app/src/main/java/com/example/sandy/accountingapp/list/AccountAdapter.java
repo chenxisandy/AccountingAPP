@@ -117,6 +117,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         LocalRepo.getInstance().deleteAccount(accountList.get(position));
+                        LocalRepo.getInstance().getAccountListByIndex(LocalRepo.getInstance().getCurrentIndexOfUser()).remove(position);
                         accountList.remove(position);
                         notifyItemRemoved(position);
                     }
@@ -156,5 +157,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         this.accountList = accountList;
     }
 
-
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mContext = recyclerView.getContext();
+    }
 }
